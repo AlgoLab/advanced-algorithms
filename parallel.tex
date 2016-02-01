@@ -3,46 +3,22 @@
 \RecustomVerbatimCommand{\VerbatimInput}{VerbatimInput}{frame=single,
 numbersep=1mm, numbers=left, formatcom=\color{orange}}
 %\usepackage{kpfonts}
-\usepackage[bitstream-charter]{mathdesign}
+%\usepackage[bitstream-charter]{mathdesign}
 \usepackage[utf8]{inputenc}
 \usepackage{pgf}
 \usepackage{verbatim}
+\usepackage{fontspec}
 \usepackage[ruled,vlined,linesnumbered]{algorithm2e}
-\usepackage{amsfonts,eucal}
-
-
-\mode<presentation>
-{
-
-
+\IncMargin{1em}
 \usetheme{Boadilla}
-\useoutertheme{split}
-\usecolortheme{albatross}
+%\usecolortheme{fly}
+\usecolortheme[dark]{solarized}
+% \setsansfont{Ubuntu}
+% \setmonofont{Ubuntu Mono}
 
 \setbeamertemplate{blocks}[rounded][shadow=false]
 \setbeamertemplate{navigation symbols}{}
 
-
-
-\setbeamercolor*{structure}{fg=green!75!black,bg=blue!70!white}
-\setbeamercolor*{normal text}{fg=green!65!black,bg=blue!80!black}
-\setbeamercolor{palette primary}{use={structure,normal text},fg=green,bg=structure.bg!75!black}
-\setbeamercolor{palette secondary}{use={structure,normal text},fg=structure.fg,bg=structure.bg!60!black}
-\setbeamercolor{palette tertiary}{use={structure,normal text},fg=structure.fg,bg=structure.bg!45!black}
-\setbeamercolor{palette quaternary}{use={structure,normal text},fg=green,bg=structure.bg!75!black}
-\setbeamercolor*{example text}{fg=green!65!black}
-\setbeamercolor*{block body}{bg=structure.bg!90!black}
-\setbeamercolor*{block body alerted}{bg=structure.bg!90!black}
-\setbeamercolor*{block body example}{bg=structure.bg!90!black}
-\setbeamercolor*{block title}{parent=structure,bg=structure.bg!75!black}
-\setbeamercolor*{block title alerted}{use={structure,alerted text},fg=alerted text.fg!75!structure.fg,bg=structure.bg!75!black}
-\setbeamercolor{item projected}{fg=white}
-\setbeamercolor*{normal text}{fg=white!90!blue,bg=blue!70!black}
-\setbeamercolor*{separation line}{}
-\setbeamercolor*{fine separation line}{}
-\setbeamercolor{alerted text}{fg=yellow}
-
-}
 
 
 
@@ -51,12 +27,12 @@ numbersep=1mm, numbers=left, formatcom=\color{orange}}
 \input{today.txt}
 
 \author{Gianluca Della Vedova}
-\title{Advanced Techniques for Combinatorial Algorithms:
+\title[Advanced Algorithms]{Advanced Techniques for Combinatorial Algorithms:
 Introduction to Parallel Algorithms}
 
-\institute{Univ. Milano--Bicocca\\
+\institute[]{Univ. Milano--Bicocca\\
   \texttt{http://gianluca.dellavedova.org}}
-\date{{\tiny \vcsDate \vcsShortHash}}
+\date[]{{\tiny \vcsDate\hspace{1em} \vcsShortHash}}
 
 \DeclareMathOperator{\poly}{\text{poly}}
 \DeclareMathOperator{\polylog}{\text{polylog}}
@@ -78,10 +54,12 @@ Introduction to Parallel Algorithms}
   \begin{itemize}
   \item
                 Advanced Techniques for Combinatorial Algorithms
+\item
+{\small\url{https://gitlab.com/dellavg/advanced-algorithms}}
   \item
-                \textsf{\small http://gianluca.dellavedova.org}
+{\small\url{http://gianluca.dellavedova.org}}
   \item
-                \textsf{\small gianluca.dellavedova@unimib.it}
+{\small\url{gianluca.dellavedova@unimib.it}}
   \end{itemize}
 \end{frame}
 
@@ -118,9 +96,9 @@ Introduction to Parallel Algorithms}
 \begin{frame}\frametitle{PRAM model}
   \begin{itemize}
   \item
-Parallel computation is \emph{rapidly} becoming a \emph{dominant} theme in all areas of
+Parallel computation is \alert{rapidly} becoming a \alert{dominant} theme in all areas of
 computer science and its applications.
-It is likely that, \emph{within a decade}, virtually all developments in computer
+It is likely that, \alert{within a decade}, virtually all developments in computer
 architecture, systems programming, computer applications and the design of
 algorithms will be taking place within the context of parallel computation.
 \item
@@ -132,15 +110,19 @@ algorithms will be taking place within the context of parallel computation.
 
 
 \begin{frame}\frametitle{PRAM model}
+\begin{references}
+Selim Akl, Parallel Computation: Models and Methods, Prentice Hall, 1997.    
 
-  Selim Akl, Parallel Computation: Models and Methods, Prentice Hall, 1997,
+\+
+Selim Akl, Design \& Analysis of Parallel Algorithms, Prentice Hall, 1989.
 
-  Selim Akl, Design \& Analysis of Parallel Algorithms, Prentice Hall, 1989.
+\+
+Cormen, Leiserson, and Rivest, Introduction to Algorithms, 1st edition,
+1990, McGraw Hill and MIT Press, Chapter 30 on parallel algorithms.
 
-  Cormen, Leisterson, and Rivest, Introduction to Algorithms, 1st edition,
-    1990, McGraw Hill and MIT Press, Chapter 30 on parallel algorithms.
-
-    Joseph JaJa, An Introduction to Parallel Algorithms, Addison Wesley, 1992.
+\+
+Joseph JaJa, An Introduction to Parallel Algorithms, Addison Wesley, 1992.
+\end{references}
 \end{frame}
 
 \begin{frame}\frametitle{PRAM model}
@@ -177,7 +159,9 @@ Concurrent & CR & CW \\
   \item
     But how much?
   \item
-    Common CRCW: concurrent writes if same value ema
+    Common CRCW: concurrent writes if same value from all processors
+  \item
+    Priority CRCW: highest priority processor wins
   \end{itemize}
 \end{center}
 \end{frame}
@@ -190,9 +174,11 @@ Concurrent & CR & CW \\
 \item
   $p(n)$ = polynomial number of processors
 \item
-  $\mathcal{NC}$
+  $\mathbf{NC}$
 \item
-  $\mathcal{NC}\subseteq \mathcal{P}$
+  $\mathbf{NC}\subseteq \mathbf{P}$
+\item
+  Hardness = $\mathbf{P}$-complete problems
 \end{itemize}
 \end{frame}
 
@@ -331,7 +317,7 @@ $S^{*}_{i} = \text{PrefixSum}([y_{1}, \ldots , y_{n/2}])$\;
   \item
     depth-first visit
   \item
-    No $\mathcal{NC}$ algorithm
+    No $\mathbf{NC}$ algorithm
   \item
     breadth-first visit
   \item
@@ -400,12 +386,17 @@ $S^{*}_{i} = \text{PrefixSum}([y_{1}, \ldots , y_{n/2}])$\;
 \end{frame}
 
 \begin{frame}\frametitle{Additional Bibliography on PRAM}
-  \small
-   Parallel Computing PRAM Algorithms
-   \url{http://www.cs.unc.edu/~prins/Classes/633/Handouts/pram.pdf}
 
+\begin{references}
 A Survey of Parallel Algorithms for Shared-Memory Machines
 \url{http://techreports.lib.berkeley.edu/accessPages/CSD-88-408.html}
+\end{references}
+
+\begin{references}
+Vishkin, Uzi (2009), Thinking in Parallel: Some Basic Data-Parallel Algorithms and
+Techniques.    
+\url{http://www.umiacs.umd.edu/users/vishkin/PUBLICATIONS/classnotes.pdf}    
+\end{references}
 \end{frame}
 
 
