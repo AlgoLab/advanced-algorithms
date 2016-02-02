@@ -112,15 +112,18 @@ algorithms will be taking place within the context of parallel computation.
 \begin{frame}\frametitle{PRAM model}
 \begin{references}
 Selim Akl, Parallel Computation: Models and Methods, Prentice Hall, 1997.    
+\end{references}
 
-\+
+\begin{references}
 Selim Akl, Design \& Analysis of Parallel Algorithms, Prentice Hall, 1989.
+\end{references}
 
-\+
+\begin{references}
 Cormen, Leiserson, and Rivest, Introduction to Algorithms, 1st edition,
 1990, McGraw Hill and MIT Press, Chapter 30 on parallel algorithms.
+\end{references}
 
-\+
+\begin{references}
 Joseph JaJa, An Introduction to Parallel Algorithms, Addison Wesley, 1992.
 \end{references}
 \end{frame}
@@ -284,6 +287,76 @@ $S^{*}_{i} = \text{PrefixSum}([y_{1}, \ldots , y_{n/2}])$\;
 \end{block}
 \end{frame}
 
+\begin{frame}\frametitle{Find Maximum}
+\begin{block}{Instance}
+An array $A$ of $n$ integers
+\end{block}
+\begin{block}{Question}
+Find the largest element in $A$.    
+\end{block}
+\begin{block}{Goal}
+Fastest algorithm
+\end{block}
+\end{frame}
+
+\begin{frame}\frametitle{Find Maximum}
+\begin{algorithm}[H]
+\SetKwData{Array}{$x_{1}, \ldots , x_{n}$}
+\For{$i\gets 1$ \KwTo $n$ in parallel}{%
+  $B[i]\gets $ true\;
+}
+\For{$i\gets 1$ \KwTo $n$ in parallel}{%
+  \For{$j\gets 1$ \KwTo $n$ in parallel}{%
+    \If{$A[i] < A[j]$ or $A[i] = A[j]$ and $i < j$}{%
+      $B[i]\gets $ false\;
+    }
+  }
+}
+\For{$i\gets 1$ \KwTo $n$ in parallel}{%
+  \If{$B[i]$}{Return $A[i]$}
+}
+\caption{Find1.    
+Find Maximum in an Array $A$}
+\end{algorithm}
+Time? Work? 
+\uncover<2>{\alert{$T(n)=O(1)$, $W(n)=O(n^{2})$}}
+\end{frame}
+
+\begin{frame}\frametitle{Find Maximum}
+\begin{algorithm}[H]
+\SetKwData{Array}{$x_{1}, \ldots , x_{n}$}
+\eIf{$n > 16$}{%
+  \For{$i\gets 1$ \KwTo $n$ in parallel}{%
+    $B[i]\gets $Find2$(A[1 + \lfloor (i - 1)/\sqrt{n} \rfloor : \lfloor i/\sqrt{n} \rfloor])$\;
+  }
+  Find1($B$)\;
+}{%
+  Find1($A$)\;
+}
+\caption{Find2.    
+Find Maximum in an Array $A$}
+\end{algorithm}
+$T(n)\le \sqrt{T(\sqrt{n})} + c_{1} \Rightarrow T(n) = O(\log \log n)$
+
+$W(n)\le \sqrt{n} W(\sqrt{n}) + c_{2}n \Rightarrow W(n) = O(n \log \log n)$
+\end{frame}
+
+
+\begin{frame}\frametitle{Find Maximum}
+\begin{algorithm}[H]
+\SetKwData{Array}{$x_{1}, \ldots , x_{n}$}
+\For{$i\gets 1$ \KwTo $n / \log\log n$ in parallel}{%
+  $B[i]\gets \min(A[1 + \lfloor (i - 1)\log\log n \rfloor : \lfloor i/\log\log n
+  \rfloor])$\;
+}
+Find2($B$)\;
+\caption{Find3.    
+Find Maximum in an Array $A$}
+\end{algorithm}
+$T(n) = O(\log \log n)$
+
+$W(n) = O(n)$
+\end{frame}
 
 
 \begin{frame}\frametitle{Binary trees}
@@ -338,52 +411,56 @@ $S^{*}_{i} = \text{PrefixSum}([y_{1}, \ldots , y_{n/2}])$\;
   \end{itemize}
 \end{frame}
 
-\begin{frame}\frametitle{Minimum Spanning Tree (MRC)}
-  \begin{algorithm}[H]
-    \KwData{Array}{dense graph $G=\left\langle V,E \right\rangle $}
-
-    \tcc{$|V|=n$, $|E|\ge n^{1+c}$}
-    $V_{1}, \ldots, V_{k} \gets $ random balanced partition of $V$\;
-    $E_{i,j} \gets \{(u, v) \in E | u, v \in V_{i} \cup V_{j} \}$\;
-    $G_{i,j} \gets $ subgraph of $G$ induced by $E_{i,j}$\;
-    \ForEach{$G_{i,j}$}{
-      $M_{i,j}\gets $ minimum spanning forest of $G_{i,j}$
-    }
-    $H \gets \left\langle V, \bigcup_{i,j} M_{i,j}\right\rangle $\;
-    $M \gets$ minimum spanning tree of $H$\;
-    \label{alg:MRC-MST}
-    \caption{MST}
-  \end{algorithm}
-\end{frame}
-
-\begin{frame}\frametitle{Minimum Spanning Tree (MRC)}
-  \begin{block}{MST Algorithm is correct}
-    \begin{enumerate}
-      \item
-    Let $e\in E\setminus E(H)$.
-      \item
-    Then $e$ is a heaviest edge in some cycles of $G_{i,j}$.
-      \item
-    The same cycle is also in $G$.
-  \end{enumerate}
+\begin{frame}\frametitle{Connected components}
+\begin{block}{Instance}
+Undirected graph $G=(V,E)$
+\end{block}
+\begin{block}{Data structure}
+\begin{enumerate} 
+\item
+$M(v,w)$ adjacency matrix
+\item
+$R(v) \gets v$ representative.    
+All vertices in the same connected components have the same representative.    
+\item
+$C[v,w]$ connected components with representative $v$ and $w$ can be merged
+\end{enumerate}
 \end{block}
 \end{frame}
 
-
 \begin{frame}\frametitle{Connected components}
   \begin{algorithm}[H]
-    Label each vertex either \alert{up} or \alert{down}\;
-    \ForEach{edge $(v,w)$}{
-      Add the component of the down vertex to that of the up vertex\;
-      \tcc{The root of the lower component is now a child of the root of the
-        upper component}
+    \ForEach{edge $(v,w)$ such that $R[v] \neq R[w]$}{
+      \If{$R[v] < R[w]$}{%
+        $C[R[v], R[w]] \gets $ true\;
+      }
+    }
+    \ForEach{vertex $v$ such that $R[v]=v$}{
+      $R[v] \gets \max w : C[R[v], R[w]]$ is true\;
     }
     \ForEach{vertex $v$}{
-      parent[$v$] $\gets$ parent[parent[$v$]]
+      $R[v] \gets R[R[v]]$\;
     }
     \caption{ConnectedComponents}
   \end{algorithm}
 \end{frame}
+
+
+\begin{frame}\frametitle{Minimum Spanning Tree}
+\begin{block}{Problem}
+Given an undirected edge-weighted connected graph $G=(V,E)$, find a
+minimum-weight subset
+$T\subseteq E$ such that $T$ is a tree spanning $V$.    
+\end{block}
+
+\begin{block}{Lemma}
+Let $G=(V,E)$ be an undirected graph, let $(V_{1}, V_{2})$ be a
+bipartition of $V$, let $T$ be a minimum spanning tree of $G$, and let
+$e$ be the lightest edge connecting $V_{1}$ and $V_{2}$.    
+Then $e\in T$.    
+\end{block}
+\end{frame}
+
 
 \begin{frame}\frametitle{Additional Bibliography on PRAM}
 
