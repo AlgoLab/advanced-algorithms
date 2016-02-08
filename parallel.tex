@@ -11,6 +11,13 @@ numbersep=1mm, numbers=left, formatcom=\color{orange}}
 \usepackage[ruled,vlined,linesnumbered]{algorithm2e}
 \IncMargin{1em}
 \usetheme{Boadilla}
+\usefonttheme{professionalfonts} 
+% \usefonttheme{serif} % default family is serif
+% \usepackage{fontspec}
+% \setmainfont{Liberation Serif}
+\setbeamerfont{frametitle}{series=\bfseries}
+
+
 %\usecolortheme{fly}
 \usecolortheme[dark]{solarized}
 % \setsansfont{Ubuntu}
@@ -428,8 +435,10 @@ $C[v,w]$ connected components with representative $v$ and $w$ can be merged
     \ForEach{vertex $v$ such that $R[v]=v$}{
       $R[v] \gets \max w : C[R[v], R[w]]$ is true\;
     }
-    \ForEach{vertex $v$}{
-      $R[v] \gets R[R[v]]$\;
+    \For{$i\gets 1$ to $\log_{2} n$}{
+      \ForEach{vertex $v$}{
+        $R[v] \gets R[R[v]]$\;
+      }
     }
     \caption{ConnectedComponents}
   \end{algorithm}
