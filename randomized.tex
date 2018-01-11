@@ -1,0 +1,172 @@
+\documentclass[14pt,aspectratio=169]{beamer}
+\usepackage{fancyvrb}
+\RecustomVerbatimCommand{\VerbatimInput}{VerbatimInput}{frame=single,
+numbersep=1mm, numbers=left, formatcom=\color{orange}}
+%\usepackage{kpfonts}
+%\usepackage[bitstream-charter]{mathdesign}
+\usepackage[utf8]{inputenc}
+\usepackage{pgf}
+\usepackage{verbatim}
+%\usepackage{fontspec}
+\usepackage[ruled,vlined,linesnumbered]{algorithm2e}
+\IncMargin{1em}
+\usetheme{Madrid}
+\setbeamerfont{frametitle}{series=\bfseries}
+\usecolortheme[dark]{solarized}
+\setbeamertemplate{blocks}[rounded][shadow=false]
+\setbeamertemplate{navigation symbols}{}
+
+\input{today.txt}
+
+\author{Gianluca Della Vedova}
+\title[Advanced Algorithms]{Advanced Techniques for Combinatorial Algorithms:
+Randomized Algorithms}
+\institute[]{Univ. Milano--Bicocca\\
+  \texttt{https://gianluca.dellavedova.org}}
+\date[]{{\tiny \today\hspace{1em} \vcsShortHash}}
+
+\DeclareMathOperator{\poly}{\text{poly}}
+\DeclareMathOperator{\polylog}{\text{polylog}}
+
+
+% If you wish to uncover everything in a step-wise fashion, uncomment
+% the following command:
+\beamerdefaultoverlayspecification{<+->}
+
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+
+\begin{frame}\frametitle{Gianluca Della Vedova}
+  \begin{itemize}
+  \item
+                Advanced Techniques for Combinatorial Algorithms
+\item
+{\small\url{https://gitlab.com/dellavg/advanced-algorithms}}
+  \item
+{\small\url{https://gianluca.dellavedova.org}}
+  \item
+{\small\url{gianluca.dellavedova@unimib.it}}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Karp-Rabin}
+\begin{block}{Binary alphabet}
+\begin{itemize}
+\item
+$H(S)=\sum_{i=1}^{|S|} 2^{|S| - i}H(S[i])$
+\item
+$m$-long sliding window on $T$
+\item
+$H(T[i+1:i+m]) =$\\
+$=\left(H(T[i:i+m-1]) - T[i] \right) / 2 + 2^{m-1}T[i+m]$
+\item
+bit operations
+\item
+$T[i:i+m-1]=P \Leftrightarrow H(T[i:i+m-1])=H(P)$
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Karp-Rabin: problem}
+\begin{block}{Numbers too large}
+\begin{itemize}
+\item
+RAM model: all numbers $O(n+m)$
+\item
+Solution: modulus $p$, random prime $p$
+\item
+$H(T[i+1:i+m]) =$\\
+$\left(\left(H(T[i:i+m-1]) - T[i] \right) / 2 + 2^{m-1}T[i+m] \right)\mod p$
+\item
+Horner's formula.
+%
+$2^{m-1}T[i+m] \mod p$ computed iteratively
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Karp-Rabin: false positives}
+\begin{block}{Kinds of error}
+\begin{itemize}
+\item
+False positive (FP): reported false occurrence
+\item
+False negative (FN): occurrence not found
+\item
+$H(T[i:i+m-1])=H(P) \Leftrightarrow T[i:i+m-1]=P$
+\item
+$H(T[i:i+m-1])  \mod p = H(P)  \mod p$
+$\Leftarrow T[i:i+m-1]=P$
+\end{itemize}
+\end{block}
+\end{frame}
+
+
+\begin{frame}[fragile]
+\frametitle{Karp-Rabin: false positives}
+\begin{block}{Error probability}
+$P[\#FP\ge 1] \le O(nm/I)$ if $p$ is randomly (w.r.t. uniform distribution) chosen among
+all prims $\le I$
+\end{block}
+
+\begin{block}{Some values of $I$}
+\begin{itemize}
+\item
+$I=n^{2}m \Rightarrow P[\#FP\ge 1] \le 2.54/n$
+\item
+$I=nm^{2}  \Rightarrow P[\#FP\ge 1] \in O(1/m)$
+\end{itemize}
+\end{block}
+
+\begin{block}{Decreasing error probability}
+  Choosing $k$ random primes (independently, without repetitions).
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Las Vegas vs.
+  Monte Carlo}
+\begin{block}{Classifying randomized algorithms}
+\begin{itemize}
+\item
+Las Vegas:
+\begin{itemize}
+\item
+Always correct
+\item
+Sometimes not fast
+\item
+Example: Quicksort with random pivot
+\end{itemize}
+\item
+Monte Carlo:
+\begin{itemize}
+\item
+Always fast
+\item
+Sometimes not correct
+\item
+Karp-Rabin
+\end{itemize}
+\end{itemize}
+\end{block}
+\end{frame}
+
+
+
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-PDF-mode: t
+%%% buffer-file-coding-system: utf-8
+%%% End:
