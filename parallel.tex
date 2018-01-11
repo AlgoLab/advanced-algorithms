@@ -1,4 +1,4 @@
-\documentclass[14pt]{beamer}
+\documentclass[14pt,aspectratio=169]{beamer}
 \usepackage{fancyvrb}
 \RecustomVerbatimCommand{\VerbatimInput}{VerbatimInput}{frame=single,
 numbersep=1mm, numbers=left, formatcom=\color{orange}}
@@ -7,39 +7,24 @@ numbersep=1mm, numbers=left, formatcom=\color{orange}}
 \usepackage[utf8]{inputenc}
 \usepackage{pgf}
 \usepackage{verbatim}
-\usepackage{fontspec}
+%\usepackage{fontspec}
 \usepackage[ruled,vlined,linesnumbered]{algorithm2e}
 \IncMargin{1em}
-\usetheme{Boadilla}
-\usefonttheme{professionalfonts} 
-% \usefonttheme{serif} % default family is serif
-% \usepackage{fontspec}
-% \setmainfont{Liberation Serif}
+\usetheme{Madrid}
 \setbeamerfont{frametitle}{series=\bfseries}
-
-
-%\usecolortheme{fly}
 \usecolortheme[dark]{solarized}
-% \setsansfont{Ubuntu}
-% \setmonofont{Ubuntu Mono}
-
 \setbeamertemplate{blocks}[rounded][shadow=false]
 \setbeamertemplate{navigation symbols}{}
 
-
-
-
-% \usepackage{euler}
-%\usepackage[T1]{fontenc}
 \input{today.txt}
 
 \author{Gianluca Della Vedova}
 \title[Advanced Algorithms]{Advanced Techniques for Combinatorial Algorithms:
-Introduction to Parallel Algorithms}
-
+Parallel Algorithms}
 \institute[]{Univ. Milano--Bicocca\\
-  \texttt{http://gianluca.dellavedova.org}}
-\date[]{{\tiny \vcsDate\hspace{1em} \vcsShortHash}}
+  \texttt{https://gianluca.dellavedova.org}}
+\date[]{{\tiny \today\hspace{1em} \vcsShortHash}}
+
 
 \DeclareMathOperator{\poly}{\text{poly}}
 \DeclareMathOperator{\polylog}{\text{polylog}}
@@ -64,7 +49,7 @@ Introduction to Parallel Algorithms}
 \item
 {\small\url{https://gitlab.com/dellavg/advanced-algorithms}}
   \item
-{\small\url{http://gianluca.dellavedova.org}}
+{\small\url{https://gianluca.dellavedova.org}}
   \item
 {\small\url{gianluca.dellavedova@unimib.it}}
   \end{itemize}
@@ -117,22 +102,17 @@ algorithms will be taking place within the context of parallel computation.
 
 
 \begin{frame}\frametitle{PRAM model}
-\begin{references}
+  \begin{itemize}[<.->]
+    \item
 Selim Akl, Parallel Computation: Models and Methods, Prentice Hall, 1997.    
-\end{references}
-
-\begin{references}
+    \item
 Selim Akl, Design \& Analysis of Parallel Algorithms, Prentice Hall, 1989.
-\end{references}
-
-\begin{references}
+    \item
 Cormen, Leiserson, and Rivest, Introduction to Algorithms, 1st edition,
 1990, McGraw Hill and MIT Press, Chapter 30 on parallel algorithms.
-\end{references}
-
-\begin{references}
+    \item
 Joseph JaJa, An Introduction to Parallel Algorithms, Addison Wesley, 1992.
-\end{references}
+\end{itemize}
 \end{frame}
 
 \begin{frame}\frametitle{PRAM model}
@@ -463,16 +443,15 @@ Then $e\in T$.
 
 \begin{frame}\frametitle{Additional Bibliography on PRAM}
 
-\begin{references}
+    \begin{itemize}[<.->]
+    \item
 A Survey of Parallel Algorithms for Shared-Memory Machines
 \url{http://techreports.lib.berkeley.edu/accessPages/CSD-88-408.html}
-\end{references}
-
-\begin{references}
+    \item
 Vishkin, Uzi (2009), Thinking in Parallel: Some Basic Data-Parallel Algorithms and
 Techniques.    
 \url{http://www.umiacs.umd.edu/users/vishkin/PUBLICATIONS/classnotes.pdf}    
-\end{references}
+\end{itemize}
 \end{frame}
 
 
