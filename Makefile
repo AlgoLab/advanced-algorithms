@@ -1,4 +1,4 @@
-LATEXMK = latexmk -recorder -use-make -pdf -interaction=nonstopmode -pdflatex="xelatex %O %S" 
+LATEXMK = latexmk -recorder -use-make -pdf -interaction=nonstopmode 
 SOURCES = $(wildcard *.tex)
 OBJECTS = $(SOURCES:.tex=.pdf)
 
