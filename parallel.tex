@@ -1,4 +1,4 @@
-\documentclass[14pt,aspectratio=169]{beamer}
+\documentclass[12pt,aspectratio=169]{beamer}
 \usepackage{fancyvrb}
 \RecustomVerbatimCommand{\VerbatimInput}{VerbatimInput}{frame=single,
 numbersep=1mm, numbers=left, formatcom=\color{orange}}
@@ -234,8 +234,8 @@ Concurrent & CR & CW \\
 {
   $y_{i}\gets x_{2i-1} + x_{2i}$\;
 }
-$S^{*}_{i} = \text{PrefixSum}([y_{1}, \ldots , y_{n/2}])$\;
-\tcc{$y_{i} = x_{1} + \cdots + x_{2i}$}
+$S^{*} = \text{PrefixSum}([y_{1}, \ldots , y_{n/2}])$\;
+\tcc{$S^{*}_{j} = x_{1} + \cdots + x_{2j}$}
 \For{$i\gets 1$ \KwTo $n$ \uncover<2>{\alert{in parallel}}}
 {
   \If{$i$ is even}{
@@ -265,11 +265,11 @@ $S^{*}_{i} = \text{PrefixSum}([y_{1}, \ldots , y_{n/2}])$\;
 \begin{block}{Brent's scheduling principle}
   \begin{itemize}
   \item
-    $t$ parallel steps on $p$ processors
+    $w$ work on $p$ processors in time $t$
   \item
     $p_{1}<p$
   \item
-    $\lfloor p/p_{i}\rfloor +t$ parallel steps
+    time $\lfloor w/p_{i}\rfloor +t$, work $w$
   \end{itemize}
 \end{block}
 \end{frame}
@@ -323,7 +323,7 @@ Time? Work?
 \caption{Find2.    
 Find Maximum in an Array $A$}
 \end{algorithm}
-$T(n)\le \sqrt{T(\sqrt{n})} + c_{1} \Rightarrow T(n) = O(\log \log n)$
+$T(n)\le T(\sqrt{n}) + c_{1} \Rightarrow T(n) = O(\log \log n)$
 
 $W(n)\le \sqrt{n} W(\sqrt{n}) + c_{2}n \Rightarrow W(n) = O(n \log \log n)$
 \end{frame}
@@ -357,9 +357,9 @@ $W(n) = O(n)$
   \item
     $O(n)$-time sequential algorithm
   \item
-    Level-wise visit, each node in parallel
+    Algorithm 1: Level-wise visit, each node in parallel
   \item
-    $t(n)=$height
+    $t(n)=$height (not good)
   \end{itemize}
 \end{frame}
 
@@ -407,6 +407,7 @@ $C[v,w]$ connected components with representative $v$ and $w$ can be merged
 
 \begin{frame}\frametitle{Connected components}
   \begin{algorithm}[H]
+    \For(\emph{hookings}){$\log_{2} n$ times}{
     \ForEach{edge $(v,w)$ such that $R[v] \neq R[w]$}{
       \If{$R[v] < R[w]$}{%
         $C[R[v], R[w]] \gets $ true\;
@@ -415,12 +416,13 @@ $C[v,w]$ connected components with representative $v$ and $w$ can be merged
     \ForEach{vertex $v$ such that $R[v]=v$}{
       $R[v] \gets \max w : C[R[v], R[w]]$ is true\;
     }
-    \For{$i\gets 1$ to $\log_{2} n$}{
+    \For(\emph{parallel pointer jumping}){$i\gets 1$ to $\log_{2} n$}{
       \ForEach{vertex $v$}{
         $R[v] \gets R[R[v]]$\;
       }
     }
-    \caption{ConnectedComponents}
+  }
+  \caption{ConnectedComponents}
   \end{algorithm}
 \end{frame}
 
