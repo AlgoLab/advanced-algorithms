@@ -9,3 +9,6 @@ pdf: $(OBJECTS)
 
 today.txt: .git/logs/HEAD
 	autorevision -t tex > today.txt
+
+release: $(OBJECTS)
+	cp $(OBJECTS) ~/Corsi/advanced-algorithms;

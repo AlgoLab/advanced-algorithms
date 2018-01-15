@@ -176,7 +176,7 @@ Concurrent & CR & CW \\
 \begin{frame}\frametitle{Optimal Algorithm}
 \begin{itemize}
 \item
-  \alert{work} $w(n) = t(n) p(n)$
+  \alert{work} $w(n) \le t(n) p(n)$
 \item
   $t(n)$ = polylogarithmic time
 \item
@@ -255,9 +255,9 @@ $S^{*} = \text{PrefixSum}([y_{1}, \ldots , y_{n/2}])$\;
   \item
     EREW
   \item
-    $O(n)$ processors
+    $O(\log n)$ time, $O(n)$ processors
   \item
-    $w(n) = O(n\log n)$
+    $w(n) = O(n)$
   \item
     $O(n/\log n)$ processors are enough
   \end{itemize}

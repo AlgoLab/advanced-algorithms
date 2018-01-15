@@ -160,9 +160,114 @@ Karp-Rabin
 \end{block}
 \end{frame}
 
+\begin{frame}[fragile]
+\frametitle{The probabilistic method}
+\begin{block}{Shows that an object exists}
+  If the probability that an object exists is $>0$
+\end{block}
 
+\begin{block}{Proposition}
+  Let $K_{n}$ be the complete graph with $n$ vertices.
+%
+If ${n \choose k} 2^{1- {k \choose 2}} <1$ then we can color the edges of $K_{n}$ so that we
+have no monochromatic $K_{k}$ subgraph.
+%
+\end{block}
+\end{frame}
 
+\begin{frame}[fragile]
+\frametitle{The probabilistic method}
+\begin{block}{Proposition}
+  Let $K_{n}$ be the complete graph with $n$ vertices.
+%
+If ${n \choose k} 2^{1- {k \choose 2}} <1$ then we can color the edges of $K_{n}$ so that we
+have no monochromatic $K_{k}$ subgraph.
+%
+\end{block}
 
+\begin{block}{Proof}
+  \begin{enumerate}
+  \item
+    There are $2{n \choose 2}$ colorings of $K_{n}$.
+\item
+  Color each edge at random
+  \item There are $n \choose k$ $k$-cliques
+  \item
+    Let $A_{i}$ be the event that $k$-clique $i$ is monochromatic
+  \item
+    $P[A_{i}] = 2^{1- {k \choose 2}}$
+  \item
+    $P[\bigcup A_{i}] \le \sum P[A_{i}] = {n \choose k} 2^{1- {k \choose 2}} < 1$
+  \item
+    $P[\bigcap \bar{A_{i}}] = 1 - P[\bigcup A_{i}] > 0$
+  \end{enumerate}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{The expectation method}
+\begin{block}{Shows that an object exists}
+  Let $E[X]$ be the expected value of event $X$.
+  %
+  Then there exists an event with value $\le E[X]$ and an event with value $\ge E[X]$
+\end{block}
+\begin{block}{Max Cut}
+  \begin{itemize}
+    \item
+  Let $G=(V,E)$ be an undirected graph, with $|V|=n$, $|E|=m$.
+%
+    \item
+  The \alert{cut} associated with the bipartition $(V_{1},V_{2})$ of $V$ is $E\cap
+  V_{1}\times V_{2}$.
+%
+    \item
+  There exists a cut with at least $m/2$ edges.
+%
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{The expectation method}
+\begin{block}{Random cut}
+  \begin{itemize}
+    \item
+      For each vertex $v$, assign $v$ to a side with $p=1/2$
+    \item
+      Probability of at least $m/2$ edges in the cut
+    \end{itemize}
+  \end{block}
+
+  \begin{block}{Proof}
+  \begin{itemize}
+    \item
+      Probability of each edge in the random cut $C$: $1/2$
+    \item
+      $P[|C|=i] = {m \choose i}2^{-m}$
+    \end{itemize}
+  \end{block}
+
+  \begin{block}{Question}
+    How many random cuts are needed?
+  \end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{The sample and modify method}
+  \begin{block}{Independent set}
+    $G$: undirected graph.
+%
+    Average degree $d=2m/n$
+    \begin{enumerate}
+    \item
+      $S$: sample of vertices.
+%
+      Each vertex picked with $p=1/d$
+    \item
+      While there exists an edge $e$, delete one of the endpoints of $e$
+    \end{enumerate}
+  \end{block}
+\end{frame}
 \end{document}
 
 %%% Local Variables:
