@@ -48,7 +48,9 @@ Parallel Algorithms}
                 Advanced Techniques for Combinatorial Algorithms
 \item
 {\small\url{https://gitlab.com/dellavg/advanced-algorithms}}
-  \item
+\item
+{\small\url{https://algolab.eu/2018/01/07/advanced-techniques-for-combinatorial-algorithms-2018/}}
+\item
 {\small\url{https://gianluca.dellavedova.org}}
   \item
 {\small\url{gianluca.dellavedova@unimib.it}}
@@ -345,7 +347,42 @@ $T(n) = O(\log \log n)$
 $W(n) = O(n)$
 \end{frame}
 
+\begin{frame}\frametitle{List Ranking}
+  \begin{itemize}[<.->]
+  \item
+    Problem: given a list L, find the position of each element in L
+  \end{itemize}
+\begin{algorithm}[H]
+\SetKwData{List}{$L$, elements $<value, next>$}
+\ForEach{$L[i]$ in parallel}{%
+  \eIf{$next(i) = NIL$}{%
+    $rank[i] \gets 0$}{%
+    $rank[i] \gets 1$
+  }
+  \For{$k\gets 1$ \KwTo $\log_{2} n$}{%
+    $rank[i] \gets rank[i] + rank[next[i]]$\;
+    $next[i] \gets next[next[i]]$
+  }
+}
+\caption{List Ranking via pointer jumping}
+\end{algorithm}
+\end{frame}
 
+\begin{frame}\frametitle{List Ranking}
+\begin{block}{Proof}
+  \begin{itemize}
+  \item
+    At iteration $k$:
+  \item
+    if $next[i] \neq NIL$ then $rank[i] = 2^{k}$
+  \item
+    if $next[i] = NIL$ then $rank[i]$ is the distance between $L[i]$ and the end of the
+    list
+  \item
+    $next[i] = NIL$ for the last $2^{k}$ elements of $L$
+  \end{itemize}
+\end{block}
+\end{frame}
 \begin{frame}\frametitle{Binary trees}
   \begin{itemize}
   \item
