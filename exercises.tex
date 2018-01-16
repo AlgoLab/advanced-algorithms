@@ -34,8 +34,8 @@
 
 \begin{document}
 \title{Advanced Techniques for Combinatorial Algorithms}
-\author{Gianluca Della Vedova}
-\date{2015--16}
+\author{Gianluca Della Vedova --- Raffaella Rizzi}
+\date{2017--18}
 
 \maketitle
 
@@ -45,35 +45,36 @@
 Given an undirected edge-weighted connected graph $G = (V, E)$, find a minimum-weight
 subset $T \subseteq E$ such that $T$ is a tree spanning $V$.
 
-\section{String Algorithms}
 
-Recall that the lcp array stores the length of the longest common
-prefix between $w[SA[i]..n]$ and $w[SA[i+1]..n]$, where $SA$ is the suffix
-array. We sketched an $O(n)$ time algorithm for computing all such
-values. Write its pseudocode and prove the correctness.
+% \section{String Algorithms}
 
-\section{Approximation Algorithms}
+% Recall that the lcp array stores the length of the longest common
+% prefix between $w[SA[i]..n]$ and $w[SA[i+1]..n]$, where $SA$ is the suffix
+% array. We sketched an $O(n)$ time algorithm for computing all such
+% values. Write its pseudocode and prove the correctness.
 
-
-Let $G=(V,E)$ be a directed graph (i.e., each arc (v,w) is outgoing from
-v and incoming in w), with $|V|=n$, $|E|=m$.
-Moroever $G$ has no loops (a loop is an arc $(v,v)$).
-Each arc $(v,w)$ has a nonnegative weight $w(v,w)$.
-
-Let $\pi=<i_1, \ldots, i_n>$ be a permutation of $1, \ldots, n$. Then
-$\pi$ induces the ordering $<v_{i_1}, \ldots, v_{i_n}>$ of the vertices of $G$.
-An arc $(v_i, v_j)$ is consistent with an ordering $\pi$ iff $i$
-precedes $j$ in $\pi$.
-
-Instance: a directed graph $G$\\
-Feasible solution: an ordering $\pi$ of the vertices of $G$\\
-Objective function: the total weight of the arcs of $G$ that are consistent with
-$\pi$ (to maximize).
+% \section{Approximation Algorithms}
 
 
-\textbf{Question}.
-Design a $\frac{1}{2}$-approximation algorithm, proving the guaranteed
-approximation ratio.
+% Let $G=(V,E)$ be a directed graph (i.e., each arc (v,w) is outgoing from
+% v and incoming in w), with $|V|=n$, $|E|=m$.
+% Moroever $G$ has no loops (a loop is an arc $(v,v)$).
+% Each arc $(v,w)$ has a nonnegative weight $w(v,w)$.
+
+% Let $\pi=<i_1, \ldots, i_n>$ be a permutation of $1, \ldots, n$. Then
+% $\pi$ induces the ordering $<v_{i_1}, \ldots, v_{i_n}>$ of the vertices of $G$.
+% An arc $(v_i, v_j)$ is consistent with an ordering $\pi$ iff $i$
+% precedes $j$ in $\pi$.
+
+% Instance: a directed graph $G$\\
+% Feasible solution: an ordering $\pi$ of the vertices of $G$\\
+% Objective function: the total weight of the arcs of $G$ that are consistent with
+% $\pi$ (to maximize).
+
+
+% \textbf{Question}.
+% Design a $\frac{1}{2}$-approximation algorithm, proving the guaranteed
+% approximation ratio.
 
 
 \end{document}
