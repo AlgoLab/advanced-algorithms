@@ -233,18 +233,43 @@ have no monochromatic $K_{k}$ subgraph.
   \begin{itemize}
     \item
       For each vertex $v$, assign $v$ to a side with $p=1/2$
-    \item
-      Probability of at least $m/2$ edges in the cut
     \end{itemize}
   \end{block}
 
   \begin{block}{Proof}
-  \begin{itemize}
+    \begin{itemize}
     \item
-      Probability of each edge in the random cut $C$: $1/2$
+      $X_{i} = 1$ if edge $i$ in the cut $C$, else $0$
     \item
-      $P[|C|=i] = {m \choose i}2^{-m}$
+      Probability of each edge in the random cut $C$: $1/2$.
+%
+      $E[X_{i}] = 1/2$
+    \item
+      $E[\sum X_{i}] = \sum E[X_{i}] = m/2$
     \end{itemize}
+  \end{block}
+
+  \begin{block}{Question}
+    The algorithm?
+  \end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{The expectation method}
+\begin{block}{Random cut}
+      $q=P[|C| \ge m/2]$, for random cut $C$.
+%
+      Then $q\ge \frac{1}{m/2 + 1}$
+  \end{block}
+
+  \begin{block}{Proof}
+    \[
+      \frac{m}{2} = E[C] = \sum_{i\le m/2 - 1} i \cdot P[|C| = i] +
+      \sum_{i\ge m/2} i \cdot P[|C| = i] \le 
+    \]
+    \[
+      \sum_{i\le m/2 - 1} (m/2 - 1)(1-q) + qm \Rightarrow q \ge \frac{1}{m/2 + 1}
+      \]
   \end{block}
 
   \begin{block}{Question}
@@ -258,16 +283,37 @@ have no monochromatic $K_{k}$ subgraph.
     $G$: undirected graph.
 %
     Average degree $d=2m/n$
-    \begin{enumerate}
+  \end{block}
+
+
+\begin{algorithm}[H]
+\SetKwData{Graph}{$G=<V,E>$}
+$S\gets$ a random sample of $V$, each vertex is picked with $p=1/d$\;
+$I\gets S$\;
+\While{there exists an edge $e$ in $G|I$}{%
+  Remove an endpoint of $e$ from $I$
+}
+\caption{Random Independent Set}
+\end{algorithm}
+\end{frame}
+
+
+\begin{frame}[fragile]
+\frametitle{The sample and modify method}
+  \begin{block}{Bounding $|I|$}
+    \begin{itemize}
     \item
-      $S$: sample of vertices.
-%
-      Each vertex picked with $p=1/d$
+      $E(G) = \frac{nd}{2}$
     \item
-      While there exists an edge $e$, delete one of the endpoints of $e$
-    \end{enumerate}
+      $E[|S|] = \frac{n}{d}$
+    \item
+      $E[E(G|S)] = \frac{nd}{2}\frac{1}{d}\frac{1}{d} = \frac{n}{d}$
+    \item
+      At most $E(G|S)$ are removed in the second step, hence $E[|I|] = E[|S|]- E[E(G|S)]= \frac{n}{2d}$
+    \end{itemize}
   \end{block}
 \end{frame}
+
 \end{document}
 
 %%% Local Variables:
