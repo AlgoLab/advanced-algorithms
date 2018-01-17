@@ -188,7 +188,7 @@ have no monochromatic $K_{k}$ subgraph.
 \begin{block}{Proof}
   \begin{enumerate}
   \item
-    There are $2{n \choose 2}$ colorings of $K_{n}$.
+    There are $2^{n \choose 2}$ colorings of $K_{n}$.
 \item
   Color each edge at random
   \item There are $n \choose k$ $k$-cliques
@@ -268,7 +268,7 @@ have no monochromatic $K_{k}$ subgraph.
       \sum_{i\ge m/2} i \cdot P[|C| = i] \le 
     \]
     \[
-      \sum_{i\le m/2 - 1} (m/2 - 1)(1-q) + qm \Rightarrow q \ge \frac{1}{m/2 + 1}
+      \le (m/2 - 1)(1-q) + qm \Rightarrow q \ge \frac{1}{m/2 + 1}
       \]
   \end{block}
 
@@ -307,7 +307,7 @@ $I\gets S$\;
     \item
       $E[|S|] = \frac{n}{d}$
     \item
-      $E[E(G|S)] = \frac{nd}{2}\frac{1}{d}\frac{1}{d} = \frac{n}{d}$
+      $E[E(G|S)] = \frac{nd}{2}\frac{1}{d}\frac{1}{d} = \frac{n}{2d}$
     \item
       At most $E(G|S)$ are removed in the second step, hence $E[|I|] = E[|S|]- E[E(G|S)]= \frac{n}{2d}$
     \end{itemize}
