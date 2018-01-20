@@ -1,0 +1,180 @@
+\documentclass[14pt]{beamer}
+\usepackage{fancyvrb}
+\RecustomVerbatimCommand{\VerbatimInput}{VerbatimInput}{frame=single,
+numbersep=1mm, numbers=left, formatcom=\color{orange}}
+%\usepackage{kpfonts}
+%\usepackage[bitstream-charter]{mathdesign}
+\usepackage[utf8]{inputenc}
+\usepackage{pgf}
+\usepackage{verbatim}
+\usepackage{fontspec}
+\usepackage[ruled,vlined,linesnumbered]{algorithm2e}
+\IncMargin{1em}
+\usetheme{Boadilla}
+\usefonttheme{professionalfonts} 
+%\usecolortheme{fly}
+\usecolortheme[dark]{solarized}
+% \setsansfont{Ubuntu}
+% \setmonofont{Ubuntu Mono}
+
+\setbeamertemplate{blocks}[rounded][shadow=false]
+\setbeamertemplate{navigation symbols}{}
+
+
+
+
+% \usepackage{euler}
+%\usepackage[T1]{fontenc}
+\input{today.txt}
+
+\author{Gianluca Della Vedova}
+\title[Advanced Algorithms]{Advanced Techniques for Combinatorial Algorithms:
+Introduction to Information Theory}
+
+\institute[]{Univ. Milano--Bicocca\\
+  \texttt{http://gianluca.dellavedova.org}}
+\date[]{{\tiny \vcsDate\hspace{1em} \vcsShortHash}}
+
+\DeclareMathOperator{\poly}{\text{poly}}
+\DeclareMathOperator{\polylog}{\text{polylog}}
+
+
+% If you wish to uncover everything in a step-wise fashion, uncomment
+% the following command:
+%\beamerdefaultoverlayspecification{<+->}
+
+
+\begin{document}
+\begin{frame}
+  \titlepage
+\end{frame}
+
+
+
+\begin{frame}\frametitle{Entropy}
+\begin{block}{Entropy}
+Let $A$ be a discrete random variable over universe set $U$.    
+Then its entropy is 
+\[H(A) = \sum_{x\in U} p_{x} \log_{2} \frac{1}{p_{x}} = - \sum_{x\in U} p_{x} \log_{2} p_{x} \]
+where $p_{x}$ is the probability of the event $x$.    
+\end{block}
+
+Entropy measures information content.    
+\end{frame}
+
+\begin{frame}\frametitle{Entropy 2}
+\begin{block}{Entropy of a text $T$}
+Let $f(\sigma)$ be the relative frequency of symbol $\sigma$ in $T$.    
+Then its entropy is 
+\[H(T) = - \sum_{\sigma\in \Sigma} f(\sigma) \log_{2} f(\sigma) \]
+\end{block}
+\end{frame}
+
+\begin{frame}\frametitle{Jensen Inequality}
+\begin{block}{Jensen Inequality}
+Let $A$ be a random variable, and let $\psi$ be a convex function.    
+Then 
+\[\psi(E(A)) \le E(\psi(A))\]
+where $E()$ is the expectation.    
+\end{block}
+\end{frame}
+
+\begin{frame}\frametitle{Prefix code}
+\begin{block}{Code}
+\[\phi : A \subset \mathbb{N} \mapsto \{0,1\}^{*}\]
+\end{block}
+
+\alert{Variable} length codewords
+
+\begin{block}{Example}
+$0 \mapsto 1010$\\
+$1 \mapsto 0010$\\
+$2 \mapsto 00$
+\end{block}
+
+\alert{Not} prefix code
+\end{frame}
+
+\begin{frame}\frametitle{Prefix code}
+\begin{block}{Prefix Code}
+No codeword is the prefix of another codeword.    
+\end{block}
+
+\begin{block}{Examples}
+$0 \mapsto 1$\\
+$1 \mapsto 01$\\
+$2 \mapsto 001$
+\end{block}
+
+
+\begin{block}{Lemma}
+All prefix codes are uniquely decodable.    
+\end{block}
+\end{frame}
+
+\begin{frame}\frametitle{Elias gamma encoding}
+\begin{block}{Encoding $n\ge 1$}
+\begin{enumerate} 
+\item
+$N\gets \lfloor \log_{2} n \rfloor$
+\item
+$N$ zeroes followed by $n$ in binary
+\end{enumerate}
+Requires $2\lfloor \log_{2} n \rfloor +1$ bits
+\end{block}
+
+\begin{block}{Examples}
+$9 = 1001_{2} \mapsto 000 1001$\\
+$15 = 1111_{2} \mapsto 000 1111$\\
+\end{block}
+\end{frame}
+
+\begin{frame}\frametitle{Elias delta encoding}
+\begin{block}{Encoding $n\ge 1$}
+\begin{enumerate} 
+\item
+$N\gets \lfloor \log_{2} n \rfloor$
+\item
+$L\gets \lfloor \log_{2} N+1 \rfloor$
+\item
+Elias $\gamma$ encoding of $N+1$, followed by $n-2^{N}$ as $N$-bits
+\end{enumerate}
+Requires $2\lfloor \log_{2} \left( \lfloor \log_{2} n \rfloor + 1 \right)\rfloor
+ +\lfloor \log_{2} n \rfloor + 1$ bits
+\end{block}
+
+\begin{block}{Examples}
+$9 = 1001_{2} \mapsto 01 1 001$\\
+$15 = 1111_{2} \mapsto 01 1 111$\\
+\end{block}
+\end{frame}
+
+\begin{frame}\frametitle{Huffman encoding}
+All elements of $U$ are weighted.    
+\begin{algorithm}[H]
+$a,b\gets$ the two lightest elements of $U$\;
+$c\gets$ new element
+$w(c) \gets w(a) + w(b)$\;
+\eIf{$|U| > 1$}{
+  $\phi_{1}\gets $ Huffman($U\setminus \{a,b\} \cup \{c\}$)\;
+  $\phi \gets \phi_{1}$\;
+  $\phi(a) \gets \phi_{1}(c)0$;
+  $\phi(b) \gets \phi_{1}(c)1$\;
+  Remove $c, \phi(c)$\;
+}{%
+  $\phi(u) \gets $ empty codeword\;
+}
+Return($\phi$)\;
+\caption{Huffman encoding}
+\end{algorithm}
+
+\end{frame}
+
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-PDF-mode: t
+%%% buffer-file-coding-system: utf-8
+%%% End:
