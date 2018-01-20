@@ -1,3 +1,13 @@
-vc.tex
+*.aux
+*.latexmk
+*.fls
+*.log
+*.nav
+*.out
 *.pdf
+*.snm
+*.toc
 *.vrb
+*_latexmk
+today.txt
+/auto
