@@ -1,0 +1,213 @@
+\documentclass[12pt,aspectratio=169]{beamer}
+\usepackage{fancyvrb}
+\RecustomVerbatimCommand{\VerbatimInput}{VerbatimInput}{frame=single,
+numbersep=1mm, numbers=left, formatcom=\color{orange}}
+%\usepackage{kpfonts}
+%\usepackage[bitstream-charter]{mathdesign}
+\usepackage[utf8]{inputenc}
+\usepackage{pgf}
+\usepackage{verbatim}
+%\usepackage{fontspec}
+\usepackage[ruled,vlined,linesnumbered]{algorithm2e}
+\IncMargin{1em}
+\usetheme{Madrid}
+\setbeamerfont{frametitle}{series=\bfseries}
+\usecolortheme[dark]{solarized}
+\setbeamertemplate{blocks}[rounded][shadow=false]
+\setbeamertemplate{navigation symbols}{}
+
+\input{today.txt}
+
+\author{Gianluca Della Vedova}
+\title[Advanced Algorithms]{Advanced Techniques for Combinatorial Algorithms:
+Fixed-Parameter Algorithms}
+\institute[]{Univ. Milano--Bicocca\\
+  \texttt{https://gianluca.dellavedova.org}}
+\date[]{{\tiny \today\hspace{1em} \vcsShortHash}}
+
+\DeclareMathOperator{\poly}{\text{poly}}
+\DeclareMathOperator{\polylog}{\text{polylog}}
+
+
+% If you wish to uncover everything in a step-wise fashion, uncomment
+% the following command:
+% \beamerdefaultoverlayspecification{<+->}
+
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+
+\begin{frame}\frametitle{Gianluca Della Vedova}
+  \begin{itemize}
+  \item
+                Advanced Techniques for Combinatorial Algorithms
+\item
+{\small\url{https://gitlab.com/dellavg/advanced-algorithms}}
+  \item
+{\small\url{https://gianluca.dellavedova.org}}
+  \item
+{\small\url{gianluca.dellavedova@unimib.it}}
+  \end{itemize}
+\end{frame}
+
+
+
+\begin{frame}\frametitle{Memory Hierarchy}
+  \begin{itemize}
+  \item
+    CPU Registers
+  \item
+    L1 Cache: $32-256$ KBytes, latency $< 10^{-9}$ secs
+  \item
+    L2 Cache: $1-16$ MBytes, block transfer size $B=32$ Bytes
+  \item
+    RAM: $1-32$ GBytes,  $B=64$ Bytes
+  \item
+    Disk: $100$ GBytes - $1$ PBytes,  $B=8$ KBytes, latency $> 10^{-3}$ secs
+  \end{itemize}
+\end{frame}
+
+
+\begin{frame}\frametitle{PDM model}
+  \begin{itemize}
+  \item
+    Parallel Disk Model
+  \item
+    Locality of reference
+  \item
+    Parallel disk access
+  \item
+    Disk striping (data across several disks)
+  \item
+    Count \alert{I/O operations}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}\frametitle{PDM parameters}
+  \begin{itemize}
+  \item
+    $N$ = problem size (in units of data items)
+  \item
+$M$ = internal memory size (in units of data items)
+  \item
+$B$ = block transfer size (in units of data items)
+  \item
+$D$ = number of independent disk drives;
+  \item
+$P$ = number of CPUs
+\item
+  $Q$ = number of queries (for a batched problem);
+  \item
+$Z$ = answer size (in units of data items).
+  \item
+    $M < N$ and $1 \le DB \le M/2$
+  \item
+    $n=N/B$, $m=M/B$, $q=Q/B$, $z=Z/B$
+  \end{itemize}
+\end{frame}
+
+
+\begin{frame}\frametitle{Basic operations}
+  \begin{itemize}
+  \item
+    Scan: $\Theta(\frac{N}{DB})$
+  \item
+    Sort: $\Theta(\frac{N}{DB} \log_{M/B} \frac{N}{N})$
+  \item
+    Search: $\Theta(\log_{DB}N)$
+  \item
+    Output: $\Theta(\max\{1, \frac{Z}{DB}\})$
+  \end{itemize}
+\end{frame}
+
+\begin{frame}\frametitle{PDM references}
+Jeffrey Scott Vitter.
+Algorithms and Data Structures for External Memory.
+Foundations and Trends in Theoretical Computer Science.
+Now Publishers, 2008~\url{http://www.ittc.ku.edu/~jsv/Papers/Vit.IO_book.pdf}
+
+L. Arge, M. T. Goodrich, M. Nelson, and N. Sitchinava. Fundamental
+parallel algorithms for private-cache chip multiprocessors. In Proceedings
+of SPAA ’08, pages 197–206. ACM, 2008.
+\end{frame}
+
+  \section{Relations between models}
+\begin{frame}\frametitle{}
+  \begin{center}
+    \Huge
+    Relations between models
+  \end{center}
+\end{frame}
+
+\begin{frame}\frametitle{Map Reduce and PDM}
+  \begin{block}{Shuffle step}
+  \begin{itemize}
+  \item
+    Matrix: $R$=rows=reduce steps, $M$=columns=keys
+  \item
+    sparse matrix
+  \item
+    Layout depending on maps
+  \item
+    Rearrange into a column-wise ordering
+  \end{itemize}
+\end{block}
+\end{frame}
+
+
+
+\section{Algorithms}
+
+
+\begin{frame}\frametitle{Multiway Partitioning (PDM)}
+  \begin{block}{Multiway Partitioning}
+    \begin{itemize}
+    \item
+      $M=\{ m_{1}, \ldots , m_{d}\}$ ordered set of pivots
+    \item
+      $S$: unordered set of elements
+    \item
+      $A_{i}$: $i$-th bucket. $a_{i}\in A_{i}$, $m_{i-1}< a_{i} \le m_{i}$
+    \item
+      Goal: Compute $A_{i}$s
+    \item
+      Goal: Compute $|A_{i}|$
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+\begin{frame}\frametitle{Multiway Partitioning (PDM)}
+  \begin{algorithm}[H]
+    Split $A$ into sets $S_{1}, \ldots , S_{P}$\;
+    \ForEach{processor $i$ in parallel}{
+      Read the vector of pivots $M$ into the cache\;
+      Partition $S_{i}$ into $d$ buckets, $J_{i}$ = number of items in each
+      bucket
+    }
+    Prefix Sums on $\{J_{1}, \ldots , J_{P}\}$ in parallel\;
+    \ForEach{processor $i$ in parallel}{
+      Write elements $S_{i}$ into memory locations offset appropriately by $J_{i-1}$ and $J_{i}$
+    }
+    compute $|A_{i}|$s, using the prefix sums stored in $J_{P}$
+    \caption{MultiPartition}
+  \end{algorithm}
+\end{frame}
+
+\begin{frame}\frametitle{Additional Bibliography on PDM}
+  \small
+Fundamental parallel algorithms for private-cache chip multiprocessors
+\url{https://dl.acm.org/citation.cfm?id=1378573}
+\end{frame}
+
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-PDF-mode: t
+%%% buffer-file-coding-system: utf-8
+%%% End:
