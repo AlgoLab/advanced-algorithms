@@ -63,8 +63,7 @@ $H(S)=\sum_{i=1}^{|S|} 2^{|S| - i}H(S[i])$
 \item
 $m$-long sliding window on $T$
 \item
-$H(T[i+1:i+m]) =$\\
-$=\left(H(T[i:i+m-1]) - T[i] \right) / 2 + 2^{m-1}T[i+m]$
+$H(T[i+1:i+m]) = \left(\left(H(T[i:i+m-1]) - T[i] \right) / 2 + 2^{m}T[i+m] \right)$
 \item
 bit operations
 \item
@@ -83,7 +82,7 @@ RAM model: all numbers $O(n+m)$
 Solution: modulus $p$, random prime $p$
 \item
 $H(T[i+1:i+m]) =$\\
-$\left(\left(H(T[i:i+m-1]) - T[i] \right) / 2 + 2^{m-1}T[i+m] \right)\mod p$
+$\left(\left(H(T[i:i+m-1]) - T[i] \right) / 2 + 2^{m}T[i+m] \right)\mod p$
 \item
 Horner's formula.
 %

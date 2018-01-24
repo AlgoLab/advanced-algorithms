@@ -15,4 +15,4 @@ today.txt: .git/logs/HEAD
 	inkscape $< --export-pdf=$@
 
 release: $(OBJECTS)
-	cp $(OBJECTS) ~/Corsi/advanced-algorithms
+	rsync -avc $(OBJECTS) ~/Corsi/advanced-algorithms
