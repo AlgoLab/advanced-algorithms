@@ -20,7 +20,7 @@ numbersep=1mm, numbers=left, formatcom=\color{orange}}
 
 \author{Gianluca Della Vedova}
 \title[Advanced Algorithms]{Advanced Techniques for Combinatorial Algorithms:
-Fixed-Parameter Algorithms}
+External-Memory Algorithms}
 \institute[]{Univ. Milano--Bicocca\\
   \texttt{https://gianluca.dellavedova.org}}
 \date[]{{\tiny \today\hspace{1em} \vcsShortHash}}
@@ -114,56 +114,90 @@ $Z$ = answer size (in units of data items).
 \begin{frame}\frametitle{Basic operations}
   \begin{itemize}
   \item
-    Scan: $\Theta(\frac{N}{DB})$
+    Scan: $\Theta(\frac{N}{DB})=\Theta(\frac{n}{B})$
   \item
-    Sort: $\Theta(\frac{N}{DB} \log_{M/B} \frac{N}{N})$
+    Sort: $\Theta(\frac{N}{DB} \log_{M/B} \frac{N}{B}) = \Theta(\frac{n}{D} \log_{M/B} n)$
   \item
     Search: $\Theta(\log_{DB}N)$
   \item
-    Output: $\Theta(\max\{1, \frac{Z}{DB}\})$
+    Output: $\Theta(\max\{1, \frac{Z}{DB}\}) = \Theta(\max\{1, \frac{z}{D}\})$
   \end{itemize}
 \end{frame}
 
-\begin{frame}\frametitle{PDM references}
-Jeffrey Scott Vitter.
-Algorithms and Data Structures for External Memory.
-Foundations and Trends in Theoretical Computer Science.
-Now Publishers, 2008~\url{http://www.ittc.ku.edu/~jsv/Papers/Vit.IO_book.pdf}
 
-L. Arge, M. T. Goodrich, M. Nelson, and N. Sitchinava. Fundamental
-parallel algorithms for private-cache chip multiprocessors. In Proceedings
-of SPAA ’08, pages 197–206. ACM, 2008.
-\end{frame}
-
-  \section{Relations between models}
-\begin{frame}\frametitle{}
-  \begin{center}
-    \Huge
-    Relations between models
-  \end{center}
-\end{frame}
-
-\begin{frame}\frametitle{Map Reduce and PDM}
-  \begin{block}{Shuffle step}
+\begin{frame}\frametitle{Disk striping}
   \begin{itemize}
   \item
-    Matrix: $R$=rows=reduce steps, $M$=columns=keys
+    I/O only on entire stripes
   \item
-    sparse matrix
+    cohesive set of disks
   \item
-    Layout depending on maps
-  \item
-    Rearrange into a column-wise ordering
+    $D$ disks as a logical disk with logical block size $DB$
   \end{itemize}
+  \begin{block}{Main idea}
+    \begin{itemize}
+    \item
+$1$ disk: each I/O step transmits one block of size $DB$
+\item
+$D$ disks: each I/O step consists of $D$
+simultaneous block transfers of size $B$
+each.
+\item
+  Same number of I/O steps
+\end{itemize}
 \end{block}
 \end{frame}
 
 
 
+%   \section{Relations between models}
+% \begin{frame}\frametitle{}
+%   \begin{center}
+%     \Huge
+%     Relations between models
+%   \end{center}
+% \end{frame}
+
+% \begin{frame}\frametitle{Map Reduce and PDM}
+%   \begin{block}{Shuffle step}
+%   \begin{itemize}
+%   \item
+%     Matrix: $R$=rows=reduce steps, $M$=columns=keys
+%   \item
+%     sparse matrix
+%   \item
+%     Layout depending on maps
+%   \item
+%     Rearrange into a column-wise ordering
+%   \end{itemize}
+% \end{block}
+% \end{frame}
+
+
+
 \section{Algorithms}
 
+\begin{frame}\frametitle{Distribution sort}
+  \begin{block}{$S$ buckets}
+    \begin{itemize}
+    \item
+      By choosing $S-1$ pivots
+    \item
+      needs buckets of similar size, so $O(\log_{S}n)$ recursion layers
+    \item
+      scan to build the buckets.
+%
+      When a buffer is full $\Rightarrow$ write it
+    \item
+      $O(m)$ buckets
+    \item
+      probabilistic approach to select the pivots
+    \end{itemize}
+  \end{block}
+\end{frame}
 
-\begin{frame}\frametitle{Multiway Partitioning (PDM)}
+
+  \begin{frame}\frametitle{Multiway Partitioning (PDM)}
   \begin{block}{Multiway Partitioning}
     \begin{itemize}
     \item
@@ -197,10 +231,22 @@ of SPAA ’08, pages 197–206. ACM, 2008.
   \end{algorithm}
 \end{frame}
 
-\begin{frame}\frametitle{Additional Bibliography on PDM}
+\begin{frame}\frametitle{PDM references}
   \small
-Fundamental parallel algorithms for private-cache chip multiprocessors
+  \begin{itemize}
+    \item
+Jeffrey Scott Vitter.
+Algorithms and Data Structures for External Memory.
+Foundations and Trends in Theoretical Computer Science.
+Now Publishers, 2008~\url{http://www.ittc.ku.edu/~jsv/Papers/Vit.IO_book.pdf}
+\item
+L. Arge, M. T. Goodrich, M. Nelson, and N. Sitchinava. Fundamental
+parallel algorithms for private-cache chip multiprocessors. In Proceedings
+of SPAA ’08, pages 197–206. ACM, 2008.
+\item
+  Fundamental parallel algorithms for private-cache chip multiprocessors
 \url{https://dl.acm.org/citation.cfm?id=1378573}
+\end{itemize}
 \end{frame}
 
 

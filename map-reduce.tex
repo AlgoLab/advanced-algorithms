@@ -20,7 +20,7 @@ numbersep=1mm, numbers=left, formatcom=\color{orange}}
 
 \author{Gianluca Della Vedova}
 \title[Advanced Algorithms]{Advanced Techniques for Combinatorial Algorithms:
-Fixed-Parameter Algorithms}
+Data Streams and Map-Reduce}
 \institute[]{Univ. Milano--Bicocca\\
   \texttt{https://gianluca.dellavedova.org}}
 \date[]{{\tiny \today\hspace{1em} \vcsShortHash}}
@@ -112,7 +112,7 @@ approximately every 18 months (\url{ftp://ftp.ncbi.nih.gov/genbank/gbrel.txt}).
   \end{itemize}
 \end{frame}
 
-\begin{frame}\frametitle{Real solutions}
+\begin{frame}\frametitle{Solutions}
   \begin{itemize}
   \item
     parallel algorithms
@@ -120,14 +120,10 @@ approximately every 18 months (\url{ftp://ftp.ncbi.nih.gov/genbank/gbrel.txt}).
     map reduce
   \item
     data streaming
-    \begin{itemize}
-    \item
-      Irene Finocchi
-    \end{itemize}
   \item
-    external memory algorithms
+    External-memory algorithms
   \item
-      Are all related
+    Are all related
   \end{itemize}
 \end{frame}
 
@@ -137,7 +133,7 @@ approximately every 18 months (\url{ftp://ftp.ncbi.nih.gov/genbank/gbrel.txt}).
 \begin{frame}\frametitle{Map Reduce model}
   \begin{itemize}
   \item
-    \alert{Input}: hash = <key $\mapsto$ value> pairs
+    \alert{Input}: hash = $<$key $\mapsto$ value$>$ pairs
   \item
     Map
   \item
@@ -153,7 +149,7 @@ approximately every 18 months (\url{ftp://ftp.ncbi.nih.gov/genbank/gbrel.txt}).
   \begin{itemize}
   \item
     Mapper: receives
-    \alert{a} <key $\mapsto$ value> \alert{pair}, computes a hash\uncover<4-6>{ \textbf{in parallel}}
+    \alert{a} $<$key $\mapsto$ value$>$ \alert{pair}, computes a hash\uncover<4-6>{ \textbf{in parallel}}
   \item
     Shuffle: \alert{all} values with \alert{same key} $k$ are assigned to a
     unique processor \uncover<5-6>{ \textbf{automatic}}
@@ -164,17 +160,42 @@ approximately every 18 months (\url{ftp://ftp.ncbi.nih.gov/genbank/gbrel.txt}).
   \end{itemize}
 \end{frame}
 
+\begin{frame}\frametitle{$k$-th Frequency Moment }
+\begin{columns} 
+  \begin{column}{0.48\textwidth}
+  \begin{block}{Instance}
+    $k$, a list $L=\langle x_{1}, \ldots, x_{n} \rangle$ of elements over alphabet $\Sigma$
+  \end{block}
+  \begin{block}{Output}
+    $\sum_{\sigma\in\Sigma} f^{k}(\sigma)$, where $f(\sigma)$ is the number of occurrences
+    of $sigma$ in $L$
+  \end{block}
+\end{column}
+    
+\begin{column}{0.48\textwidth}
+      \begin{block}{Example}
+        $L=\langle 0,1,1,1,2,0,1,2,0,1,1,2\rangle$
+      \end{block}
+      \begin{block}{Output, $k=2$}
+        $3^{2}+6^{2}+ 3^{2} =54$
+      \end{block}
+    \end{column}
+\end{columns}
+\end{frame}
+
+
+
 
 \begin{frame}\frametitle{Example: $k$-th frequency moment}
 \begin{algorithm}[H]
-\KwData{$k$, a sequence $\left\langle x_{1}, \ldots , x_{n} \right\rangle $}
+\KwData{$k$, a list  $=L\left\langle x_{1}, \ldots , x_{n} \right\rangle $}
 
-$\mu_{1}(\langle i; x_{i} \rangle) = \langle x_{i}; i \rangle$\;
+$\mu_{1}(\langle i; x_{i} \rangle) = \langle x_{i}; i \rangle$\tcc{$i$ is the index}
 
 $\rho_{1}  (\langle x_{i} ; {v_{1} , \ldots , v_{m}} \rangle) = \langle x_{i} ;
-m^{k}\rangle$\;
+m^{k}\rangle$\tcc*{All occurrences of a symbol are grouped together}
 
-$\mu_{2}(\langle x_{i} ; v \rangle) = \langle \$ ; v \rangle$\;
+$\mu_{2}(\langle x_{i} ; v \rangle) = \langle \$ ; v \rangle$ \tcc*{Time to sum}
 
 $\rho_{1}  (\langle \$ ; {v_{i} , \ldots , v_{l}} \rangle) = \left\langle \$
 ; \sum v_{i} \right\rangle $\;
@@ -230,34 +251,34 @@ Howard J. Karloff, Siddharth Suri, Sergei Vassilvitskii: A Model of Computation 
 \end{frame}
 
 
-\begin{frame}\frametitle{Massively Unordered Distributed (MUD)}
-  \begin{itemize}
-  \item
-    Reducer receives a \alert{stream} of values
-  \item
-    Reducer has $\polylog(n)$ space
-  \item
-    Feldman, Muthukrishnan, Sidiropoulos, Stein, Svitkina.
- On Distributing Symmetric Streaming Computations.
-ACM Transactions on Algorithms~6(4):art.~66, 2010.
-  \end{itemize}
-\end{frame}
+% \begin{frame}\frametitle{Massively Unordered Distributed (MUD)}
+%   \begin{itemize}
+%   \item
+%     Reducer receives a \alert{stream} of values
+%   \item
+%     Reducer has $\polylog(n)$ space
+%   \item
+%     Feldman, Muthukrishnan, Sidiropoulos, Stein, Svitkina.
+%  On Distributing Symmetric Streaming Computations.
+% ACM Transactions on Algorithms~6(4):art.~66, 2010.
+%   \end{itemize}
+% \end{frame}
 
 
-\begin{frame}\frametitle{Memory Hierarchy}
-  \begin{itemize}
-  \item
-    CPU Registers
-  \item
-    L1 Cache: $32-256$ KBytes, latency $< 10^{-9}$ secs
-  \item
-    L2 Cache: $1-16$ MBytes, block transfer size $B=32$ Bytes
-  \item
-    RAM: $1-32$ GBytes,  $B=64$ Bytes
-  \item
-    Disk: $100$ GBytes - $1$ PBytes,  $B=8$ KBytes, latency $> 10^{-3}$ secs
-  \end{itemize}
-\end{frame}
+% \begin{frame}\frametitle{Memory Hierarchy}
+%   \begin{itemize}
+%   \item
+%     CPU Registers
+%   \item
+%     L1 Cache: $32-256$ KBytes, latency $< 10^{-9}$ secs
+%   \item
+%     L2 Cache: $1-16$ MBytes, block transfer size $B=32$ Bytes
+%   \item
+%     RAM: $1-32$ GBytes,  $B=64$ Bytes
+%   \item
+%     Disk: $100$ GBytes - $1$ PBytes,  $B=8$ KBytes, latency $> 10^{-3}$ secs
+%   \end{itemize}
+% \end{frame}
 
 
 
@@ -312,18 +333,18 @@ time can be run in $O(t(n))$ rounds in $\mathcal{MRC}$.
 \end{frame}
 
 
-\begin{frame}\frametitle{MUD and PRAM}
-\begin{block}{Theorem 4.1, Feldman et al, ACM Trans.
- Alg. 2010}
-Any $N$-processors, $M$-memory, $T$-time EREW PRAM algorithm can be simulated
-by a $O(T)$-round $(N+M)$-key MUD algorithm.
-\end{block}
+% \begin{frame}\frametitle{MUD and PRAM}
+% \begin{block}{Theorem 4.1, Feldman et al, ACM Trans.
+%  Alg. 2010}
+% Any $N$-processors, $M$-memory, $T$-time EREW PRAM algorithm can be simulated
+% by a $O(T)$-round $(N+M)$-key MUD algorithm.
+% \end{block}
 
-\begin{block}{Corollary}
-  Any problem in $\mathcal{NC}$ has a $\polylog(n)$-round, $\poly(n)$-key MUD
-  algorithm with communication complexity $O(\log(n))$ bits per key.
-\end{block}
-\end{frame}
+% \begin{block}{Corollary}
+%   Any problem in $\mathcal{NC}$ has a $\polylog(n)$-round, $\poly(n)$-key MUD
+%   algorithm with communication complexity $O(\log(n))$ bits per key.
+% \end{block}
+% \end{frame}
 
 
 \begin{frame}\frametitle{Map Reduce and PDM}
@@ -486,20 +507,20 @@ $\rho_{1}  (\langle \$ ; {v_{i} , \ldots , v_{l}} \rangle) = \left\langle \$
 \end{frame}
 
 
-\begin{frame}\frametitle{Minimum Spanning Tree 2 (MRC)}
-  \begin{algorithm}[H]
-    \KwData{Array}{dense graph $G=\left\langle V,E \right\rangle $}
+% \begin{frame}\frametitle{Minimum Spanning Tree 2 (MRC)}
+%   \begin{algorithm}[H]
+%     \KwData{Array}{dense graph $G=\left\langle V,E \right\rangle $}
 
-    $\beta\gets O(|E|)/\eta$\; \tcc{$\eta$: memory size}
-    $E_{1}, \ldots, E_{\beta} \gets $ random partition of $E$ into $\beta$ sets\;
-    \ForEach{$G_{i,j}$ in parallel}{
-      $T_{i}\gets $ Min spanning forest on $E_{i}$
-    }
-    Return($\left\langle V, \bigcup T_{i} \right\rangle$ )
-    \label{alg:MRC-MST2}
-    \caption{MST2}
-  \end{algorithm}
-\end{frame}
+%     $\beta\gets O(|E|)/\eta$\; \tcc{$\eta$: memory size}
+%     $E_{1}, \ldots, E_{\beta} \gets $ random partition of $E$ into $\beta$ sets\;
+%     \ForEach{$G_{i,j}$ in parallel}{
+%       $T_{i}\gets $ Min spanning forest on $E_{i}$
+%     }
+%     Return($\left\langle V, \bigcup T_{i} \right\rangle$ )
+%     \label{alg:MRC-MST2}
+%     \caption{MST2}
+%   \end{algorithm}
+% \end{frame}
 
 
 \begin{frame}\frametitle{Maximal Matching (MRC)}
@@ -510,7 +531,7 @@ $\rho_{1}  (\langle \$ ; {v_{i} , \ldots , v_{l}} \rangle) = \left\langle \$
     \item
       Then $M\subseteq E$ is a matching if no two edges of $M$ shares a vertex
     \item
-      $M$ is maximal if $\not\exists M_{1}$ s.t. $M_{1}$ is a matching
+      $M$ is maximal if $\not\exists M_{1}\supseteq M$ s.t. $M_{1}$ is a matching
     \end{itemize}
   \end{block}
 \end{frame}
@@ -522,12 +543,12 @@ $\rho_{1}  (\langle \$ ; {v_{i} , \ldots , v_{l}} \rangle) = \left\langle \$
     $M\gets \emptyset$, $S=E$\;
 
     $E'\gets$ random sample of $S$\;
-    \lIf{$|E'|>\eta$}{Fail}\;
+    \lIf{$|E'|>\eta$}{Fail}
     $M'\gets$ maximal matching on $E'$ \tcc{1 reducer}
     $M\gets M\cup M'$\;
     Remove all edges conflicting with $M$\;
     $S\gets $ remaining edges\;
-    \lIf{$|I|>\eta$}{go to step 2}\;
+    \lIf{$|I|>\eta$}{go to step 2}
     $M'\gets$ maximal matching on $M'$ \tcc{1 reducer}
     $M\gets M\cup M'$\;
     \label{alg:MRC-MC2}
@@ -579,6 +600,69 @@ Counting triangles and the curse of the last reducer
 A Model of Computation for MapReduce \url{http://dl.acm.org/citation.cfm?id=1873677}
 \end{frame}
 
+\begin{frame}\frametitle{Data Streams}
+  \begin{block}{Almost permutation}
+    \begin{itemize}
+    \item
+      Input: a permutation $\pi$ of $\{1, \ldots , n\}$ with one element missing
+    \item
+      Find the missing element
+    \item
+      Streaming: read the input once
+    \item
+      $\lceil \log n \rceil$ bits of memory
+    \end{itemize}
+  \end{block}
+\end{frame}  
+
+\begin{frame}\frametitle{Almost permutation}
+  \begin{block}{Algorithm}
+    \begin{itemize}
+    \item
+      Keep the parity bits
+    \item
+      and add $\sum_{i=1}^{n} i$
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+\begin{frame}\frametitle{Reservoir sampling}
+  \begin{itemize}
+  \item
+    Take $k$ elements from a stream
+  \item
+    Add to $S$ the first $k$ elements
+  \item
+    The $i$-th elements is kept with probability $k/i$
+  \item
+    In case, remove a random element of $S$
+  \end{itemize}
+  \begin{block}{Uniform sampling}
+    Time $t$, $i\le t$.
+%
+    Then $Pr[x_{i}\in S] = \frac{s}{t}$
+  \end{block}
+\end{frame}
+
+\begin{frame}\frametitle{Count-Min sketch}
+  \begin{itemize}
+    \item
+      Turnstile model
+    \item
+    Approximate counting: number of occurrences of a symbol
+  \item
+    $d\times w$ matrix  $count[]$
+  \item
+    $w=e\epsilon$, $d=\log 1/\delta$
+  \item
+    $d$ hash functions $h_{1}, \ldots h_{d}: \{1, \ldots, N\}\mapsto \{1, \ldots , w\}$
+  \item
+    update $(j, I_{i})$, then $count[k, h_{k}(j)] \gets count[k, h_{k}(j)] + I_{i}$,
+    $forall k$
+  \item
+    query $A[i]$, answer $\min_{j} count[j, h_{j}(i)]$
+  \end{itemize}
+\end{frame}
 
 \end{document}
 
