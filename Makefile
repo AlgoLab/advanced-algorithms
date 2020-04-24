@@ -8,11 +8,8 @@ pdf: $(OBJECTS)
 %.pdf : %.tex 
 	$(LATEXMK) $<
 
-today.txt: .git/logs/HEAD
-	autorevision -t tex > today.txt
-
 %.pdf : %.svg
 	inkscape $< --export-pdf=$@
 
 release: $(OBJECTS)
-	rsync -avc $(OBJECTS) ~/Corsi/advanced-algorithms
+	rsync -avc $(OBJECTS) ~/B121/advanced-algorithms
