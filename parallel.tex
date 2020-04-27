@@ -19,9 +19,8 @@ numbersep=1mm, numbers=left, formatcom=\color{orange}}
 \author{Gianluca Della Vedova}
 \title[Advanced Algorithms]{Advanced Techniques for Combinatorial Algorithms:
 Parallel Algorithms}
-\institute[]{Univ. Milano--Bicocca\\
+\institute[]{Univ. Milano -- Bicocca\\
   \texttt{https://gianluca.dellavedova.org}}
-\date[]{{\tiny \today\hspace{1em} \vcsShortHash}}
 
 
 \DeclareMathOperator{\poly}{\text{poly}}
@@ -40,20 +39,6 @@ Parallel Algorithms}
 \end{frame}
 
 
-\begin{frame}\frametitle{Gianluca Della Vedova}
-  \begin{itemize}
-  \item
-                Advanced Techniques for Combinatorial Algorithms
-\item
-{\small\url{https://gitlab.com/dellavg/advanced-algorithms}}
-\item
-{\small\url{https://algolab.eu/2018/01/07/advanced-techniques-for-combinatorial-algorithms-2018/}}
-\item
-{\small\url{https://gianluca.dellavedova.org}}
-  \item
-{\small\url{gianluca.dellavedova@unimib.it}}
-  \end{itemize}
-\end{frame}
 
 
 
@@ -81,7 +66,7 @@ Parallel Algorithms}
   \item
     Shared memory
   \item
-    Synchronized
+    Synchronized (running on the same clock)
   \end{itemize}
 \end{frame}
 
@@ -124,7 +109,9 @@ Joseph JaJa, An Introduction to Parallel Algorithms, Addison Wesley, 1992.
   \item
     Processor ID
   \item
-    No communication cost
+      No communication cost
+  \item
+      Shared memory, same access time
   \end{itemize}
 \end{frame}
 
@@ -148,11 +135,15 @@ Concurrent & CR & CW \\
     CRCW is better than EREW.
   \item
     But how much?
+\item
+    There are different CRCW models:
+    \begin{itemize}
   \item
     Common CRCW: concurrent writes if same value from all processors
   \item
     Priority CRCW: highest priority processor wins
-  \end{itemize}
+    \end{itemize}
+\end{itemize}
 \end{center}
 \end{frame}
 
@@ -173,6 +164,17 @@ Concurrent & CR & CW \\
 \end{frame}
 
 
+
+\begin{frame}\frametitle{Simulations}
+\begin{itemize}
+\item
+  EREW PRAM can simulate CRCW PRAM
+\item
+  Time multiplied by $O(\log p(n))$
+\end{itemize}
+\end{frame}
+
+
 \begin{frame}\frametitle{Optimal Algorithm}
 \begin{itemize}
 \item
@@ -186,17 +188,6 @@ Concurrent & CR & CW \\
 \end{frame}
 
 
-\begin{frame}\frametitle{Simulations}
-\begin{itemize}
-\item
-  EREW PRAM can simulate CRCW PRAM
-\item
-  Time multiplied by $O(\log p(n))$
-\end{itemize}
-\end{frame}
-
-
-
 
 \section{Algorithms}
 
@@ -207,6 +198,32 @@ Concurrent & CR & CW \\
     Algorithms
   \end{center}
 \end{frame}
+\begin{frame}\frametitle{Sum of elements of an array}
+\begin{algorithm}[H]
+\SetKwData{Array}{$x[1], \ldots , x[n]$}
+\eIf{$n=1$}{
+  \Return $x[1]$
+}{
+  \Return Sum($\{x[2i-1] + x[2i] : 1\le i\le n/2\}$)
+}
+\caption{Sum}
+\end{algorithm}
+
+\begin{algorithm}[H]
+\SetKwData{Array}{$x[1], \ldots , x[n]$}
+\For{$i\gets 1$ \KwTo $n$ in parallel}{
+  $B[i] \gets x[i]$
+}
+\For{$k\gets 1$ \KwTo $(\log_{2} n) - 1$}{
+  \For{$i\gets 1$ \KwTo $2^{k - 1}$ in parallel}{
+    $B[i] \gets B[i] + B[i+1]$
+    }
+  }
+\Return Sum($\{x[2i-1] + x[2i] : 1\le i\le n/2\}$)
+\caption{Iterative Sum}
+\end{algorithm}
+\end{frame}
+
 
 \begin{frame}\frametitle{Prefix sum problem (PRAM)}
   \begin{itemize}
@@ -267,9 +284,9 @@ $S^{*} = \text{PrefixSum}([y_{1}, \ldots , y_{n/2}])$\;
   \item
     $w$ work on $p$ processors in time $t$
   \item
-    $p_{1}<p$
+    $p_{1}<p$ (use fewer processors)
   \item
-    time $\lfloor w/p_{i}\rfloor +t$, work $w$
+    time $\lfloor w/p_{1}\rfloor +t$, work $w$ (more time, same work)
   \end{itemize}
 \end{block}
 \end{frame}
@@ -313,7 +330,7 @@ Time? Work?
 \begin{algorithm}[H]
 \SetKwData{Array}{$x_{1}, \ldots , x_{n}$}
 \eIf{$n > 16$}{%
-  \For{$i\gets 1$ \KwTo $n$ in parallel}{%
+  \For{$i\gets 1$ \KwTo $\sqrt{n}$ in parallel}{%
     $B[i]\gets $Find2$(A[1 + \lfloor (i - 1)/\sqrt{n} \rfloor : \lfloor i/\sqrt{n} \rfloor])$\;
   }
   Find1($B$)\;
@@ -323,9 +340,9 @@ Time? Work?
 \caption{Find2.    
 Find Maximum in an Array $A$}
 \end{algorithm}
-$T(n)\le T(\sqrt{n}) + c_{1} \Rightarrow T(n) = O(\log \log n)$
+$T(n)$ \uncover<2>{$\le T(\sqrt{n}) + c_{1} \Rightarrow T(n) = O(\log \log n)$}
 
-$W(n)\le \sqrt{n} W(\sqrt{n}) + c_{2}n \Rightarrow W(n) = O(n \log \log n)$
+$W(n)$ \uncover<2>{$\le \sqrt{n} W(\sqrt{n}) + c_{2}n \Rightarrow W(n) = O(n \log \log n)$}
 \end{frame}
 
 
@@ -340,9 +357,29 @@ Find2($B$)\;
 \caption{Find3.    
 Find Maximum in an Array $A$}
 \end{algorithm}
-$T(n) = O(\log \log n)$
+$T(n) =$\uncover<2>{$ O(\log \log n)$}
 
-$W(n) = O(n)$
+$W(n) =$\uncover<2>{$ O(n)$}
+\end{frame}
+
+\begin{frame}\frametitle{Pointer Jumping}
+
+  \begin{itemize}[<.->]
+  \item
+    Problem: given a single-link list L, propagate the value of the last
+      element to the entire list
+  \end{itemize}
+\begin{algorithm}[H]
+\SetKwData{List}{$L$, elements $<value, next>$}
+\ForEach{$L[i]$ in parallel}{%
+  \For{$k\gets 1$ \KwTo $\log_{2} n$}{%
+     \If{$next(i) \neq NIL$}{%
+       $next[i] \gets next[next[i]]$
+    }
+  }
+  $value[i] \gets value$
+}
+\end{algorithm}
 \end{frame}
 
 \begin{frame}\frametitle{List Ranking}
@@ -406,6 +443,30 @@ $W(n) = O(n)$
 
   \uncover<2>{Depth = prefix sum}
 \end{frame}
+
+\begin{frame}\frametitle{Size of all subtrees}
+  \begin{center}
+    \includegraphics[width=8cm]{img/euler1}
+  \end{center}
+
+  \uncover<2>{replace $-1$ with $0$, difference between third and first prefix sums}
+\end{frame}
+
+
+\begin{frame}\frametitle{Matrix multiplication}
+\begin{itemize}
+\item
+    $C = AB$, simpler case $A$, $B$ square matrices
+  \item
+    embarassingly parallel
+  \item
+    $C[i,j] = \sum_{k\le n}A[i,k]B[k,j]$
+  \item
+    $O(\log n)$ time, $O(n^{3}/\log n)$ processors
+  \end{itemize}
+\end{frame}
+
+
 
 \begin{frame}\frametitle{Graph Algorithms}
   \begin{itemize}

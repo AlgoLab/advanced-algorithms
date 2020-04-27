@@ -11,3 +11,5 @@
 *_latexmk
 today.txt
 /auto
+/.auctex-auto/
+/parallel.synctex.gz

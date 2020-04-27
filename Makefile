@@ -10,6 +10,3 @@ pdf: $(OBJECTS)
 
 %.pdf : %.svg
 	inkscape $< --export-pdf=$@
-
-release: $(OBJECTS)
-	rsync -avc $(OBJECTS) ~/B121/advanced-algorithms

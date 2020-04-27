@@ -1,4 +1,4 @@
-\documentclass[14pt]{beamer}
+\documentclass[12pt,aspectratio=169]{beamer}
 \usepackage{fancyvrb}
 \RecustomVerbatimCommand{\VerbatimInput}{VerbatimInput}{frame=single,
 numbersep=1mm, numbers=left, formatcom=\color{orange}}
@@ -7,33 +7,21 @@ numbersep=1mm, numbers=left, formatcom=\color{orange}}
 \usepackage[utf8]{inputenc}
 \usepackage{pgf}
 \usepackage{verbatim}
-\usepackage{fontspec}
+%\usepackage{fontspec}
 \usepackage[ruled,vlined,linesnumbered]{algorithm2e}
 \IncMargin{1em}
-\usetheme{Boadilla}
-\usefonttheme{professionalfonts} 
-%\usecolortheme{fly}
+\usetheme{Madrid}
+\setbeamerfont{frametitle}{series=\bfseries}
 \usecolortheme[dark]{solarized}
-% \setsansfont{Ubuntu}
-% \setmonofont{Ubuntu Mono}
-
 \setbeamertemplate{blocks}[rounded][shadow=false]
 \setbeamertemplate{navigation symbols}{}
 
-
-
-
-% \usepackage{euler}
-%\usepackage[T1]{fontenc}
-\input{today.txt}
-
 \author{Gianluca Della Vedova}
 \title[Advanced Algorithms]{Advanced Techniques for Combinatorial Algorithms:
-Introduction to Information Theory}
+Information Theory }
+\institute[]{Univ. Milano -- Bicocca\\
+  \texttt{https://gianluca.dellavedova.org}}
 
-\institute[]{Univ. Milano--Bicocca\\
-  \texttt{http://gianluca.dellavedova.org}}
-\date[]{{\tiny \vcsDate\hspace{1em} \vcsShortHash}}
 
 \DeclareMathOperator{\poly}{\text{poly}}
 \DeclareMathOperator{\polylog}{\text{polylog}}
@@ -41,13 +29,15 @@ Introduction to Information Theory}
 
 % If you wish to uncover everything in a step-wise fashion, uncomment
 % the following command:
-%\beamerdefaultoverlayspecification{<+->}
+\beamerdefaultoverlayspecification{<+->}
 
 
 \begin{document}
+
 \begin{frame}
   \titlepage
 \end{frame}
+
 
 
 
