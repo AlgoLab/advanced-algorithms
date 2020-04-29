@@ -21,7 +21,6 @@ numbersep=1mm, numbers=left, formatcom=\color{orange}}
 Randomized Algorithms}
 \institute[]{Univ. Milano--Bicocca\\
   \texttt{https://gianluca.dellavedova.org}}
-\date[]{{\tiny \today\hspace{1em}}}
 
 \DeclareMathOperator{\poly}{\text{poly}}
 \DeclareMathOperator{\polylog}{\text{polylog}}
@@ -29,7 +28,7 @@ Randomized Algorithms}
 
 % If you wish to uncover everything in a step-wise fashion, uncomment
 % the following command:
-\beamerdefaultoverlayspecification{<+->}
+%\beamerdefaultoverlayspecification{<+->}
 
 
 \begin{document}
@@ -38,56 +37,26 @@ Randomized Algorithms}
   \titlepage
 \end{frame}
 
-
-\begin{frame}\frametitle{Gianluca Della Vedova}
-  \begin{itemize}
-  \item
-                Advanced Techniques for Combinatorial Algorithms
-\item
-{\small\url{https://gitlab.com/dellavg/advanced-algorithms}}
-  \item
-{\small\url{https://gianluca.dellavedova.org}}
-  \item
-{\small\url{gianluca.dellavedova@unimib.it}}
-  \end{itemize}
-\end{frame}
-
 \begin{frame}[fragile]
 \frametitle{Karp-Rabin}
-\begin{block}{Binary alphabet}
+\begin{block}{Find all occurrences of Pattern in a Text}
 \begin{itemize}
 \item
-$H(S)=\sum_{i=1}^{|S|} 2^{|S| - i}H(S[i])$
+    hash function $H: \Sigma^{|P|}\mapsto \mathbb{N}$
 \item
-$m$-long sliding window on $T$
+    hash conflicts = false positives
 \item
-$H(T[i+1:i+m]) = \left(\left(H(T[i:i+m-1]) - T[i] \right) / 2 + 2^{m}T[i+m] \right)$
+    speedup: simple hash function
 \item
-bit operations
+$H(S)=\sum_{i=1}^{|S|} 2^{|S| - i}H(S[i]) mod p$, with $p$ a large random prime
 \item
-$T[i:i+m-1]=P \Leftrightarrow H(T[i:i+m-1])=H(P)$
+    $|P|$-long sliding window on $T$
+\item
+$H(T[i+1:i+|P|]) = \left(\left(H(T[i:i+|P|-1]) - T[i] \right) / 2 + 2^{|P|}T[i+|P|] \right)$
 \end{itemize}
 \end{block}
 \end{frame}
 
-\begin{frame}[fragile]
-\frametitle{Karp-Rabin: problem}
-\begin{block}{Numbers too large}
-\begin{itemize}
-\item
-RAM model: all numbers $O(n+m)$
-\item
-Solution: modulus $p$, random prime $p$
-\item
-$H(T[i+1:i+m]) =$\\
-$\left(\left(H(T[i:i+m-1]) - T[i] \right) / 2 + 2^{m}T[i+m] \right)\mod p$
-\item
-Horner's formula.
-%
-$2^{m-1}T[i+m] \mod p$ computed iteratively
-\end{itemize}
-\end{block}
-\end{frame}
 
 \begin{frame}[fragile]
 \frametitle{Karp-Rabin: false positives}
@@ -98,34 +67,13 @@ False positive (FP): reported false occurrence
 \item
 False negative (FN): occurrence not found
 \item
-$H(T[i:i+m-1])=H(P) \Leftrightarrow T[i:i+m-1]=P$
-\item
-$H(T[i:i+m-1])  \mod p = H(P)  \mod p$
-$\Leftarrow T[i:i+m-1]=P$
+    No False negative in Karp-Rabin
 \end{itemize}
 \end{block}
-\end{frame}
-
-
-\begin{frame}[fragile]
-\frametitle{Karp-Rabin: false positives}
-\begin{block}{Error probability}
-$P[\#FP\ge 1] \le O(nm/I)$ if $p$ is randomly (w.r.t. uniform distribution) chosen among
-all prims $\le I$
-\end{block}
-
-\begin{block}{Some values of $I$}
-\begin{itemize}
-\item
-$I=n^{2}m \Rightarrow P[\#FP\ge 1] \le 2.54/n$
-\item
-$I=nm^{2}  \Rightarrow P[\#FP\ge 1] \in O(1/m)$
-\end{itemize}
-\end{block}
-
 \begin{block}{Decreasing error probability}
   Choosing $k$ random primes (independently, without repetitions).
 \end{block}
+
 \end{frame}
 
 \begin{frame}[fragile]
@@ -154,6 +102,34 @@ Sometimes not correct
 Karp-Rabin
 \end{itemize}
 \end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}\frametitle{Min Cut}
+\begin{columns}
+  \begin{column}{0.48\textwidth}
+  \begin{block}{Instance}
+    Undirected graph $G=\langle V,E \rangle$.
+  \end{block}
+  \begin{block}{Question}
+    Find a smallest subset $C\subset E$ of edges such that its removal from $G$ results
+    in a disconnected graph.
+  \end{block}
+\end{column}
+
+    \begin{column}{0.48\textwidth}
+      \centering
+
+  \includegraphics[height=0.41\textheight]{img/Min-cut}
+\end{column}
+\end{columns}
+\end{frame}
+
+
+\begin{frame}[fragile]
+\frametitle{Min Cut: Karger's algorithm}
+\begin{block}{Min Cut problem}
+  If the probability that an object exists is $>0$
 \end{block}
 \end{frame}
 

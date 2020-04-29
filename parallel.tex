@@ -246,7 +246,7 @@ Concurrent & CR & CW \\
 \begin{frame}\frametitle{Prefix sum}
 \begin{algorithm}[H]
 \SetKwData{Array}{$x_{1}, \ldots , x_{n}$}
-
+\If{$n=1$}{\Return($x_{1}$)}
 \For{$i\gets 1$ \KwTo $n/2$ \uncover<2>{\alert{in parallel}}}
 {
   $y_{i}\gets x_{2i-1} + x_{2i}$\;
@@ -262,6 +262,7 @@ $S^{*} = \text{PrefixSum}([y_{1}, \ldots , y_{n/2}])$\;
     $S_{i}\gets S^{*}_{i/2} + x_{i}$
   }
 }
+\Return($S_{1}, \ldots , S_{n}$)
 \caption{PrefixSum}
 \end{algorithm}
 \end{frame}

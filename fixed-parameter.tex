@@ -39,18 +39,6 @@ Fixed-Parameter Algorithms}
 \end{frame}
 
 
-\begin{frame}\frametitle{Gianluca Della Vedova}
-  \begin{itemize}
-  \item
-                Advanced Techniques for Combinatorial Algorithms
-\item
-{\small\url{https://gitlab.com/dellavg/advanced-algorithms}}
-  \item
-{\small\url{https://gianluca.dellavedova.org}}
-  \item
-{\small\url{gianluca.dellavedova@unimib.it}}
-  \end{itemize}
-\end{frame}
 
 \begin{frame}\frametitle{Fixed-Parameter}
   \begin{itemize}
@@ -197,15 +185,15 @@ Fixed-Parameter Algorithms}
   \begin{block}{Typical times}
     \begin{itemize}
     \item
-      $O(1.1^{k})n^{3}$
+      $O(1.1^{k})n$
     \item
       $O(2^{k})n^{3}$
-    \item
+     \item
+      $O(2^{k} + n^{3})$
+   \item
       $O(k^{k})n^{3}$
     \item
-      $O(2^{k} + n^{3})$
-    \item
-      $(O(2^{2^{2^{...^{2}}}})n^{3})$
+      $O(2^{2^{2^{...^{2}}}})n^{3}$
     \end{itemize}
   \end{block}
 \end{frame} 
@@ -236,7 +224,7 @@ Fixed-Parameter Algorithms}
     \begin{block}{Proposition}
       No node has at least three neighbors.
 %
-      Then $G$ consists of vertex-disjoint cycle, and its smallest cover is trivial
+      Then $G$ consists of vertex-disjoint cycles or paths, and its smallest cover is trivial
     \end{block}
 
     \begin{block}{Corollary}
