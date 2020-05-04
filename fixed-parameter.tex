@@ -250,7 +250,38 @@ Fixed-Parameter Algorithms}
   \end{enumerate}
 \end{frame}
 
+\begin{frame}\frametitle{Independent Set on Planar Graphs}
+\begin{block}{Euler formula}
+Let $G$ be a planar graph.
+Then $G$ has at most $3n - 6$ edges.
+\end{block}
 
+\begin{block}{Corollary}
+Let $G$ be a planar graph.
+Then there exists a vertex $v$ of $G$ with at most $5$ incident edges.
+\end{block}
+\end{frame}
+
+\begin{frame}\frametitle{Independent Set on Planar Graphs}
+\begin{algorithm}[H]
+\SetKwData{List}{$G = \langle V,E\rangle, k, I$}
+$v\gets$ a minimum degree vertex of $G$
+\ForEach{$x \in \{v\} \cap N(v)$}{%
+   Add $x$ to $I$\;
+   $G_{1}\gets$ a copy of $G$ where $x$ and the edges incident on it are
+   removed\;
+   \eIf{$G_{1}$ is not empty}{%
+     recurse on $(G_{1}, k, I)$\;
+   }{
+   \If{$|I| \ge k$}{
+     \Return $I$\;
+     }
+   }
+}
+\caption{Finds an independent set of size $k$, if it exists}
+\end{algorithm}
+\uncover<2>{Time $O(6^{k})n$}
+\end{frame}
 
 \begin{frame}\frametitle{Reduction to a Kernel}
 \begin{block}{Main idea}
@@ -315,10 +346,27 @@ The set of vertices that are the same color is an independent set
 \end{enumerate}
 \end{block}
 
+
 \begin{block}{Question}
 Is this kernel useful? \uncover<2>{No, $4k\ge n \Rightarrow 2^{[4k]}\ge 2^{n}$}
 \end{block}
 \end{frame}
+\begin{frame}\frametitle{Closest string }
+    \begin{block}{Input}
+      $s_{1}, \ldots, s_{m}$: strings of length $n$.
+      Integer $k$
+    \end{block}
+
+    \begin{block}{Problem}
+      Find a string $t=t[1]\cdots t[n]$ such that $t$ has Hamming distance at most $k$
+      with each $s_{i}$
+    \end{block}
+     \begin{block}{Hint}
+      Let $s_{i}$ and $s_{j}$ be two input strings.
+Find an upper bound on their distance. \uncover<2+>{$2k$}
+    \end{block}
+ \end{frame}
+
 
 \begin{frame}\frametitle{Color Coding }
   \begin{block}{Colorful Path}
@@ -370,22 +418,6 @@ Is this kernel useful? \uncover<2>{No, $4k\ge n \Rightarrow 2^{[4k]}\ge 2^{n}$}
     \end{itemize}
   \end{block}
 \end{frame}
-
-\begin{frame}\frametitle{Closest string }
-    \begin{block}{Input}
-      $s_{1}, \ldots, s_{m}$: strings of length $n$.
-      Integer $k$
-    \end{block}
-
-    \begin{block}{Problem}
-      Find a string $t=t[1]\cdots t[n]$ such that $t$ has Hamming distance at most $k$
-      with each $s_{i}$
-    \end{block}
-     \begin{block}{Hint}
-      Let $s_{i}$ and $s_{j}$ be two input strings.
-Find an upper bound on their distance. \uncover<2+>{$2k$}
-    \end{block}
- \end{frame}
 
   \begin{frame}\frametitle{Super-Sub sequence }
     \begin{block}{Longest Subsequence}
