@@ -271,7 +271,7 @@ $v\gets$ a minimum degree vertex of $G$
    $G_{1}\gets$ a copy of $G$ where $x$ and the edges incident on it are
    removed\;
    \eIf{$G_{1}$ is not empty}{%
-     recurse on $(G_{1}, k, I)$\;
+     recurse on $(G_{1}, k-1, I)$\;
    }{
    \If{$|I| \ge k$}{
      \Return $I$\;
