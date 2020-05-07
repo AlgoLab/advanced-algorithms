@@ -271,7 +271,7 @@ $v\gets$ a minimum degree vertex of $G$
    $G_{1}\gets$ a copy of $G$ where $x$ and the edges incident on it are
    removed\;
    \eIf{$G_{1}$ is not empty}{%
-     recurse on $(G_{1}, k-1, I)$\;
+     recurse on $(G_{1}, k - 1, I)$\;
    }{
    \If{$|I| \ge k$}{
      \Return $I$\;
@@ -346,7 +346,6 @@ The set of vertices that are the same color is an independent set
 \end{enumerate}
 \end{block}
 
-
 \begin{block}{Question}
 Is this kernel useful? \uncover<2>{No, $4k\ge n \Rightarrow 2^{[4k]}\ge 2^{n}$}
 \end{block}
@@ -363,7 +362,7 @@ Is this kernel useful? \uncover<2>{No, $4k\ge n \Rightarrow 2^{[4k]}\ge 2^{n}$}
     \end{block}
      \begin{block}{Hint}
       Let $s_{i}$ and $s_{j}$ be two input strings.
-Find an upper bound on their distance. \uncover<2+>{$2k$}
+Find an upper bound on their distance. \uncover<2>{$2k$}
     \end{block}
  \end{frame}
 
