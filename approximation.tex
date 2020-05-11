@@ -42,18 +42,6 @@ Approximation Algorithms}
 \end{frame}
 
 
-\begin{frame}\frametitle{Gianluca Della Vedova}
-  \begin{itemize}
-  \item
-                Advanced Techniques for Combinatorial Algorithms
-\item
-{\small\url{https://gitlab.com/dellavg/advanced-algorithms}}
-  \item
-{\small\url{https://gianluca.dellavedova.org}}
-  \item
-{\small\url{gianluca.dellavedova@unimib.it}}
-  \end{itemize}
-\end{frame}
 
 \begin{frame}\frametitle{NPO}
   \begin{block}{Optimization problem}
@@ -194,6 +182,35 @@ Approximation Algorithms}
 \end{column}
 \end{columns}
 \end{frame}
+
+\begin{frame}\frametitle{Approximation Goal }
+  \begin{block}{Complexity classes}
+    \begin{itemize}
+    \item
+      NPO: Optimization problems in NP
+    \item
+      FPTAS: Fully polynomial-time approximation scheme.
+%
+      Guaranteed error ratio $(1+\epsilon)$ or $(1-\epsilon)$, for any $\epsilon > 0$.
+%
+      Time complexity polynomial in $n$ and $\frac{1}{\epsilon}$
+    \item
+      PTAS: Polynomial-time approximation scheme.
+%
+      Guaranteed error ratio $(1+\epsilon)$ or $(1-\epsilon)$, for any $\epsilon > 0$.
+%
+      Time complexity polynomial in $n$ --- can be exponential in $\frac{1}{\epsilon}$,
+      e.g. $O(n^{1/\epsilon})$
+    \item
+      APX: $O(1)$ approximation ratio, polytime
+    \item
+      MAX SNP: Definition based on logic and L-reduction.
+%
+      MAX SNP is included in APX
+    \end{itemize}
+  \end{block}
+\end{frame}
+
 
 \begin{frame}\frametitle{Min Set Cover }
 \begin{columns} 
@@ -395,35 +412,6 @@ Matching on odd-degree vertices of a spanning tree $T$
 %     the number of classes of $P$, to minimize
 %   \end{block}
 % \end{frame} 
-
-\begin{frame}\frametitle{Approximation Goal }
-  \begin{block}{Complexity classes}
-    \begin{itemize}
-    \item
-      NPO: Optimization problems in NP
-    \item
-      FPTAS: Fully polynomial-time approximation scheme.
-%
-      Guaranteed error ratio $(1+\epsilon)$ or $(1-\epsilon)$, for any $\epsilon > 0$.
-%
-      Time complexity polynomial in $n$ and $\frac{1}{\epsilon}$
-    \item
-      PTAS: Polynomial-time approximation scheme.
-%
-      Guaranteed error ratio $(1+\epsilon)$ or $(1-\epsilon)$, for any $\epsilon > 0$.
-%
-      Time complexity polynomial in $n$ --- can be exponential in $\frac{1}{\epsilon}$,
-      e.g. $O(n^{1/\epsilon})$
-    \item
-      APX: $O(1)$ approximation ratio, polytime
-    \item
-      MAX SNP: Definition based on logic and L-reduction.
-%
-      MAX SNP is included in APX
-    \end{itemize}
-  \end{block}
-\end{frame}
-
 \begin{frame}\frametitle{Linear Programming }
   \begin{block}{Basic facts}
     \begin{itemize}
@@ -476,6 +464,56 @@ Matching on odd-degree vertices of a spanning tree $T$
   \begin{block}{Lemma}
     An LP-based approach cannot outperform the integrality ratio
   \end{block}
+\end{frame}
+
+\begin{frame}\frametitle{Half Integrality of Vertex Cover }
+  \begin{block}{Fractional version}
+  \begin{equation}
+    \begin{split}
+      \min \sum x_{v} \qquad\text{subject to}\\
+      x_{v} + x_{w}\quad \forall (v,w)\in E\\
+      x_{v}\ge 0 \quad \forall v\in V
+     \end{split}
+   \end{equation}
+ \end{block}
+ \begin{block}{Lemma}
+     There exists an optimal solution with $x_{v}\in \{0, 1, \frac{1}{2}\}$
+ \end{block}
+\end{frame}
+
+\begin{frame}\frametitle{Half Integrality of Vertex Cover }
+ \begin{block}{Lemma}
+     There exists an optimal solution with $x_{v}\in \{0, 1, \frac{1}{2}\}$
+ \end{block}
+\begin{columns}
+  \begin{column}{0.04\textwidth}
+      $y_{v} =$
+  \end{column}
+  \begin{column}{0.3\textwidth}
+  \begin{equation}
+    \begin{split}
+      x_{v} +\epsilon, \frac{1}{2} < x_{v} < 1\\
+      x_{v} -\epsilon, 0 < x_{v} < \frac{1}{2}
+    \end{split}
+  \end{equation}
+\end{column}\hfill
+  \begin{column}{0.04\textwidth}
+      $z_{v} =$
+  \end{column}
+  \begin{column}{0.3\textwidth}
+    \begin{equation}
+    \begin{split}
+      x_{v} -\epsilon, \frac{1}{2} < x_{v} < 1\\
+      x_{v} +\epsilon, 0 < x_{v} < \frac{1}{2}
+    \end{split}
+  \end{equation}
+\end{column}
+\end{columns}
+ \begin{block}{Proof}
+   $x = \frac{1}{2}(y+z)$.
+%
+   Choose $\epsilon$ sufficiently small, then $y$ and $z$ are both feasible
+ \end{block}
 \end{frame}
 
 
@@ -567,56 +605,6 @@ Output $D$
  \end{frame}
 
  
-\begin{frame}\frametitle{Half Integrality of Vertex Cover }
-  \begin{block}{Fractional version}
-  \begin{equation}
-    \begin{split}
-      \min \sum x_{v} \qquad\text{subject to}\\
-      x_{v} + x_{w}\quad \forall (v,w)\in E\\
-      x_{v}\ge 0 \quad \forall v\in V
-     \end{split}
-   \end{equation}
- \end{block}
- \begin{block}{Lemma}
-     There exists an optimal solution with $x_{v}\in \{0, 1, \frac{1}{2}\}$
- \end{block}
-\end{frame}
-
-\begin{frame}\frametitle{Half Integrality of Vertex Cover }
- \begin{block}{Lemma}
-     There exists an optimal solution with $x_{v}\in \{0, 1, \frac{1}{2}\}$
- \end{block}
-\begin{columns} 
-  \begin{column}{0.04\textwidth}
-      $y_{v} =$
-  \end{column}
-  \begin{column}{0.3\textwidth}
-  \begin{equation}
-    \begin{split}
-      x_{v} +\epsilon, \frac{1}{2} < x_{v} < 1\\
-      x_{v} -\epsilon, 0 < x_{v} < \frac{1}{2}
-    \end{split}
-  \end{equation}
-\end{column}\hfill
-  \begin{column}{0.04\textwidth}
-      $z_{v} =$
-  \end{column}
-  \begin{column}{0.3\textwidth}
-    \begin{equation}
-    \begin{split}
-      x_{v} -\epsilon, \frac{1}{2} < x_{v} < 1\\
-      x_{v} +\epsilon, 0 < x_{v} < \frac{1}{2}
-    \end{split}
-  \end{equation}
-\end{column}
-\end{columns}
- \begin{block}{Proof}
-   $x = \frac{1}{2}(y+z)$.
-%
-   Choose $\epsilon$ sufficiently small, then $y$ and $z$ are both feasible
- \end{block}
-\end{frame}
-
 
 \begin{frame}\frametitle{Max Cut}
   \begin{block}{Integral version}
