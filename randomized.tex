@@ -128,8 +128,37 @@ Karp-Rabin
 
 \begin{frame}[fragile]
 \frametitle{Min Cut: Karger's algorithm}
-\begin{block}{Min Cut problem}
-  If the probability that an object exists is $>0$
+\begin{algorithm}[H]
+Input: undirected unweighted graph $G=\langle V,E \rangle$
+\While{$G$ has at least two vertices}{
+  Pick a random edge $e$\;
+  Contract the edge into a single vertex, allowing parallel edges\;
+}
+Output $E$
+\caption{Karger's Algorithm}
+\end{algorithm}
+
+ \begin{block}{Observation}
+   At the end of the algorithm, $E$ is a cut.
+ \end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Min Cut: Analysis}
+\begin{itemize}
+\item
+    $C$ a minimum cut
+\item
+    Probability that random edge $\notin C$:
+    $1 - \frac{|C|}{|E|} \ge 1 - \frac{2}{n}$ (each node has degree $\ge |C|$)
+\item
+    Iteration $i$: probability $p_{i}\ge \left(1 - \frac{2}{n}\right)p_{i-1}$
+\item
+    Probability that the algorithm computes a min cut is at least
+    ${n \choose 2}^{-1}$
+\end{itemize}
+\begin{block}{Observation}
+  Repeat the algorithm.
 \end{block}
 \end{frame}
 
